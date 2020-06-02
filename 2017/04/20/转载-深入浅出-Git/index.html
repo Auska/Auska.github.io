@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>[转载]深入浅出 Git | Auska_Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文转载自Coding 这篇文章解释了 Git 是如何工作的。（如果相关内容的谈话更吸引你，你可以观看链接中的视频。）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转载]深入浅出 Git">
+<meta property="og:url" content="http://auska.github.io/2017/04/20/转载-深入浅出-Git/index.html">
+<meta property="og:site_name" content="Auska_Blog">
+<meta property="og:description" content="本文转载自Coding 这篇文章解释了 Git 是如何工作的。（如果相关内容的谈话更吸引你，你可以观看链接中的视频。）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/6efd8832-4718-4991-894c-ccf2b8033934.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/7d68fb36-f3ee-4758-9fc7-4ac05acddfd6.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/27f03915-321e-41a2-b92a-b635fcbd9163.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/09deae62-96aa-428e-b5af-2cf117ec2b53.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/b4e3ea85-a1e8-4123-b4ed-52a4d0b10111.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/6940968e-14ee-48ea-ac52-400a2daddb2e.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/52fe0759-8197-4241-806b-c93865dc45e2.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/528d1d9e-9fd9-4ccc-8080-666cf3ddf7ce.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/dfee80a2-f92b-48e8-a457-50d7e1e910b9.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/ce4fb585-537b-4a50-baf5-e4edc4fea7fc.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/cd28055d-823d-4774-acaa-e0226c25b748.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/811ef648-b184-4fb2-8aca-566fc4b5d88f.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/8ce57f10-b904-499d-8d52-8a7c62c67665.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/ee137c5c-9d93-4728-8c97-fc97bb92b68b.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/01295a6a-4605-4d2f-8e42-1fbf83b4cd86.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/80719b96-0028-4998-810e-cb5ab96c3f12.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/4eb43dad-cf0c-4281-8e4c-e9e1b7a797da.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/d0fed804-09e8-4783-a54e-a90dfc2a0af5.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/5465bf93-07a3-46bf-8adb-85f562ed1cc5.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/eefd5217-39cd-4847-89f0-029cdde0d2fc.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/3d00a7b8-b5a7-4afc-8d57-e464ab4abab7.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/143f5225-385c-4d0a-bbaa-210d1a133dd5.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/dde3e6e1-5cc4-427a-a70f-bca0da91588b.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/6d9794f4-8374-4092-b1a8-a7bc88efe95b.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/ecc82701-37fd-4509-b300-7e9199d7a511.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/43030a5c-7727-4be4-a406-07bbb392256c.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/148d51fe-fc62-4d70-901c-dbafe2d3d9f1.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/e602667a-1277-4e27-ac0d-34c8b2ae00f6.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/e8af2aaf-ab84-4c4d-bb1a-1934a956f7af.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/c67037dc-7598-4eb7-b2f2-0d2ce01652bf.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/237349c4-8460-479d-b97b-c56e68c8dcb8.png">
+<meta property="og:image" content="https://dn-coding-net-production-pp.qbox.me/546452c9-b324-46d5-a873-134fb5636a5b.png">
+<meta property="og:updated_time" content="2020-06-02T03:16:59.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转载]深入浅出 Git">
+<meta name="twitter:description" content="本文转载自Coding 这篇文章解释了 Git 是如何工作的。（如果相关内容的谈话更吸引你，你可以观看链接中的视频。）">
+<meta name="twitter:image" content="https://dn-coding-net-production-pp.qbox.me/6efd8832-4718-4991-894c-ccf2b8033934.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Auska_Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Auska</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客随便写写。</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档导航</a></li>
+                        
+                            <li><a href="/tags">分类阅读</a></li>
+                        
+                            <li><a href="/about">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bilibili/" style="font-size: 10px;">Bilibili</a> <a href="/tags/Cross/" style="font-size: 10px;">Cross</a> <a href="/tags/DSM/" style="font-size: 12px;">DSM</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Gogs/" style="font-size: 10px;">Gogs</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/LEDE/" style="font-size: 10px;">LEDE</a> <a href="/tags/NAS/" style="font-size: 20px;">NAS</a> <a href="/tags/SS/" style="font-size: 10px;">SS</a> <a href="/tags/SSR/" style="font-size: 10px;">SSR</a> <a href="/tags/VPS/" style="font-size: 14px;">VPS</a> <a href="/tags/WDMyCloud/" style="font-size: 16px;">WDMyCloud</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/gitlab/" style="font-size: 10px;">gitlab</a> <a href="/tags/h5ai/" style="font-size: 10px;">h5ai</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/压制/" style="font-size: 10px;">压制</a> <a href="/tags/挂机/" style="font-size: 10px;">挂机</a> <a href="/tags/教程/" style="font-size: 18px;">教程</a> <a href="/tags/梯子/" style="font-size: 10px;">梯子</a> <a href="/tags/游戏/" style="font-size: 10px;">游戏</a> <a href="/tags/编译/" style="font-size: 12px;">编译</a> <a href="/tags/解密/" style="font-size: 10px;">解密</a> <a href="/tags/资源/" style="font-size: 12px;">资源</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">luuman</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">这个人比较懒，什么也没留下。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Auska</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Auska</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客随便写写。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档导航</a></li>
+                
+                    <li><a href="/tags">分类阅读</a></li>
+                
+                    <li><a href="/about">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-转载-深入浅出-Git" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/20/转载-深入浅出-Git/" class="article-date">
+      <time datetime="2017-04-20T06:43:50.000Z" itemprop="datePublished">2017-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [转载]深入浅出 Git
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本文转载自<a href="https://blog.coding.net/blog/git-from-the-inside-out" target="_blank" rel="noopener">Coding</a></p>
+<p>这篇文章解释了 Git 是如何工作的。（如果相关内容的谈话更吸引你，你可以观看链接中的<a href="https://www.youtube.com/watch?v=fCtZWGhQBvo" target="_blank" rel="noopener">视频</a>。）<br><a id="more"></a><br>本文假设你已经对 Git 理解到了可以对你的项目进行版本控制的程度。本文专注于支撑 Git 的图结构以及这些图的性质影响 Git 行为的方式。通过了解底层，你可以将你心中对 Git 的模型建立在事实之上，而不是基于通过积累使用经验而建立的假设上。这个更真实的模型可以让你更好的理解 Git 做了什么，正在做什么以及将要做什么。</p>
+<p>本文由一系列针对单个项目的 Git 命令构成。时不时的，还将有一些对于 Git 所建立的图数据结构的观察。这些观察阐述了图的性质和相应性质所产生的影响。</p>
+<p>读完本文后，如果你希望更深入的了解 Git，可以阅读我关于 Git 的 JavaScript 实现<a href="http://gitlet.maryrosecook.com/docs/gitlet.html" target="_blank" rel="noopener">gitlet.js(heavily annotated source code)</a>。</p>
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~ $ mkdir alpha</span><br><span class="line">~ $ <span class="built_in">cd</span> alpha</span><br></pre></td></tr></table></figure>
+<p>用户为项目建立一个名为 <code>alpha</code> 的目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ mkdir data</span><br><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'a'</span> &gt; data/letter.txt</span><br></pre></td></tr></table></figure>
+<p>进入目录 <code>alpha</code>，并在下面建立名为 <code>data</code> 的目录。在这个目录中建立一个名为 <code>letter.txt</code> 的文件，其中包含一个字符 <code>a</code>。此时目录结构看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alpha</span><br><span class="line">└── data</span><br><span class="line">    └── letter.txt</span><br></pre></td></tr></table></figure>
+<h3 id="初始化版本库"><a href="#初始化版本库" class="headerlink" title="初始化版本库"></a>初始化版本库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git init</span><br><span class="line">          Initialized empty Git repository</span><br></pre></td></tr></table></figure>
+<p><code>git init</code> 命令使得当前目录成为一个 Git 版本库。为此这条命令建立了一个名为的 <code>.git</code> 目录并且向其中写入了一些文件。这些文件定义和记录了关于Git配置和项目历史的所有相关内容。它们只是普通的文件，其中并没有什么类似魔法的神奇之处。用户可以使用文本编辑器和命令行阅读或编辑这些文件。也就是说：用户可以像获取和修改项目文件一样简单地获取和修改项目历史。</p>
+<p>这时候目录 <code>alpha</code> 的结构看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">alpha</span><br><span class="line">├── data</span><br><span class="line">|   └── letter.txt</span><br><span class="line">└── .git</span><br><span class="line">    ├── objects</span><br><span class="line">    etc...</span><br></pre></td></tr></table></figure>
+<p><code>.git</code> 目录和其中的内容属于 Git。所有其他的文件一起被称为工作副本，属于用户。</p>
+<h3 id="添加一些文件"><a href="#添加一些文件" class="headerlink" title="添加一些文件"></a>添加一些文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git add data/letter.txt</span><br></pre></td></tr></table></figure>
+<p>用户对文件 <code>data/letter.txt</code> 运行命令 <code>git add</code>。这一操作产生两个效果。</p>
+<p>首先，这一操作在目录 <code>.git/objects/</code> 新建一个BLOB（binary large object 二进制大对象）文件。</p>
+<p>这个BLOB文件包含了文件 <code>data/letter.txt</code> 压缩过的内容。文件名由内容的散列值得到。散列一个文本片段，意味着对其内容运行一个程序将其转变为一段更短小[^1]并且唯一地[^2]代表原先文本的文本片段。例如，Git 将 <code>a</code> 散列为 <code>2e65efe2a145dda7ee51d1741299f848e5bf752e</code>。最前面的两个字符被用于对象数据库中目录的命名：<code>.git/objects/2e/</code>。散列值的其余部分被用于包含添加文件内容的BLOB文件的命名：<code>.git/objects/2e/65efe2a145dda7ee51d1741299f848e5bf752e</code>。</p>
+<p>注意到将一个文件添加到 Git 中时 Git 是如何将文件的内容保存到 <code>objects</code> 目录中的。即便用户从工作副本中删除文件 <code>data/letter.txt</code> ，它的内容在 Git 库中也是安全的。</p>
+<p>其次，<code>git add</code> 命令将文件添加到索引中。索引是一个包含所有 Git 所要跟踪文件的列表。它以文件 <code>.git/index</code> 保存。这个文件每一行建立起一个被跟踪文件与这个文件被添加时散列值的对应关系。这是在 <code>git add</code> 命令被执行之后的索引文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data/letter.txt 2e65efe2a145dda7ee51d1741299f848e5bf752e</span><br></pre></td></tr></table></figure>
+<p>用户建立一个叫做 <code>data/number.txt</code> 的文件，内容为  <code>1234</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'1234'</span> &gt; data/number.txt</span><br></pre></td></tr></table></figure>
+<p>工作副本看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alpha</span><br><span class="line">└── data</span><br><span class="line">    └── letter.txt</span><br><span class="line">    └── number.txt</span><br></pre></td></tr></table></figure>
+<p>用户将这个文件添加到 Git 中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git add data</span><br></pre></td></tr></table></figure>
+<p>命令 <code>git add</code> 创建一个包含 <code>data/number.txt</code> 内容的BLOB文件。同时添加一条文件 <code>data/number.txt</code> 的索引项，指向对应的BLOB文件。在 <code>git add</code> 命令第二次被执行之后索引文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data/letter.txt 2e65efe2a145dda7ee51d1741299f848e5bf752e</span><br><span class="line">data/number.txt 274c0052dd5408f8ae2bc8440029ff67d79bc5c3</span><br></pre></td></tr></table></figure>
+<p>注意到即便用户运行 <code>git add data</code>，也只有 <code>data</code> 目录中的文件在索引文件中被列出。文件夹 <code>data</code> 没有被单独列出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'1'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data</span><br></pre></td></tr></table></figure>
+<p>当用户最初建立 <code>data/number.txt</code> 时，他想要写入 <code>1</code>，而不是 <code>1234</code>。用户做了更改并且将文件添加到索引中。这次的命令创建了一个新的包含了新内容的BLOB文件。并且更新了文件 <code>data/number.txt</code> 的索引项指向新的BLOB文件。</p>
+<h3 id="进行一次提交"><a href="#进行一次提交" class="headerlink" title="进行一次提交"></a>进行一次提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git commit -m <span class="string">'a1'</span></span><br><span class="line">          [master (root-commit) 774b54a] a1</span><br></pre></td></tr></table></figure>
+<p>用户做提交  <code>a1</code>。Git 显示出一些有关此次提交的数据。很快我们将看懂这些信息。</p>
+<p>提交命令分三步执行。首先，命令建立了一个树图来表示被提交的项目版本的内容。其次，建立一个提交对象。最后，将当前分支指向新的提交对象。</p>
+<h4 id="创建一个树图"><a href="#创建一个树图" class="headerlink" title="创建一个树图"></a>创建一个树图</h4><p>Git 通过从索引建立一张树图来记录项目的当前状态。这张树图记录了项目中每一个文件的位置和内容。</p>
+<p>图由两种对象组成：BLOB 文件和树。</p>
+<p>BLOB 文件由 <code>git add</code> 存储。它们表示了文件的内容。</p>
+<p>树是在提交被进行时被存储的。树表示了工作副本中的目录。</p>
+<p>下面就是记录新提交中 <code>data</code> 目录内容的树对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">100664 blob 2e65efe2a145dda7ee51d1741299f848e5bf752e letter.txt</span><br><span class="line">100664 blob 56a6051ca2b02b04ef92d5150c9ef600403cb1de number.txt</span><br></pre></td></tr></table></figure>
+<p>第一行记录了再现 <code>data/letter.txt</code> 文件所需的一切内容。第一部分表明文件权限。第二部分表明此项内容由BLOB文件表示而不是一个树对象。第三个部分表明对应BLOB的散列值。第四部分表明文件名。</p>
+<p>第二行记录了关于 <code>data/number.txt</code> 文件的相同内容。</p>
+<p>下面是代表 <code>alpha</code> 的树对象，即项目的根目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">040000 tree 0eed1217a2947f4930583229987d90fe5e8e0b74 data</span><br></pre></td></tr></table></figure>
+<p>树中只有一行并指向 <code>data</code> 树。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/6efd8832-4718-4991-894c-ccf2b8033934.png" alt="Tree graph for the `a1` commit"><br><code>a1</code> 提交的树图</p>
+<p>在上面的图中，<code>root</code> 树指向 <code>data</code> 树。<code>data</code> 树指向 <code>data/letter.txt</code> 和 <code>data/number.txt</code> 对应的BLOB文件。</p>
+<h4 id="创建一个提交对象"><a href="#创建一个提交对象" class="headerlink" title="创建一个提交对象"></a>创建一个提交对象</h4><p><code>git commit</code> 在创建树图之后创建一个提交对象。提交对象是 <code>.git/objects/</code> 目录中另一个文本文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tree ffe298c3ce8bb07326f888907996eaa48d266db4</span><br><span class="line">author Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1424798436 -0500</span><br><span class="line">committer Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1424798436 -0500</span><br><span class="line"></span><br><span class="line">a1</span><br></pre></td></tr></table></figure>
+<p>第一行指向树图。散列值对应于代表工作副本根目录的树图，这里是 <code>alpha</code> 目录。最后一行是提交信息。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/7d68fb36-f3ee-4758-9fc7-4ac05acddfd6.png" alt="`a1` commit object pointing at its tree graph"><br><code>a1</code> 提交对象指向它的树图</p>
+<h4 id="将当前分支指向新提交"><a href="#将当前分支指向新提交" class="headerlink" title="将当前分支指向新提交"></a>将当前分支指向新提交</h4><p>最后，提交命令将当前分支指向新的提交对象。</p>
+<p>哪一个分支是当前分支？Git 在 <code>.git/HEAD</code> 目录中的 <code>HEAD</code> 文件中寻找相关信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ref: refs/heads/master</span><br></pre></td></tr></table></figure>
+<p>这代表 <code>HEAD</code> 指向 <code>master</code>。<code>master</code> 分支是当前分支。</p>
+<p><code>HEAD</code> 和 <code>master</code> 都是引用。引用是 Git 或用户用来标识特定分支的标签。</p>
+<p>代表 <code>master</code> 分支的引用并不存在，因为这是版本库的第一次提交。Git 在路径 <code>.git/refs/heads/master</code> 创建文件并且将内容写为提交对象的散列值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">74ac3ad9cde0b265d2b4f1c778b283a6e2ffbafd</span><br></pre></td></tr></table></figure>
+<p>（如果你在 Git 中输入你所读到的命令，<code>a1</code> 提交的散列值将与我这里的不同。内容对象例如 BLOB 文件和树总是散列到与本文相同的值上。提交对象并不如此，因为其中包含日期和创建者的名字。）</p>
+<p>让我们将 <code>HEAD</code> 和 <code>master</code> 添加到 Git 图中：</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/27f03915-321e-41a2-b92a-b635fcbd9163.png" alt="`master` pointing at the `a1` commit"><br><code>HEAD</code> 指向 <code>master</code> 并且 <code>master</code> 指向 <code>a1</code> 提交</p>
+<p><code>HEAD</code> 指向 <code>master</code>，如提交之前一样。但是现在 <code>master</code> 开始存在并且指向新的提交对象。</p>
+<h3 id="创建一个非首次提交"><a href="#创建一个非首次提交" class="headerlink" title="创建一个非首次提交"></a>创建一个非首次提交</h3><p>下面是 <code>a1</code> 提交之后的 Git 图。其中包括了工作拷贝和索引。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/09deae62-96aa-428e-b5af-2cf117ec2b53.png" alt="包含工作拷贝和索引的 `a1` 提交"><br>包含工作拷贝和索引的 <code>a1</code> 提交</p>
+<p>注意，工作拷贝，索引以及 <code>a1</code> 提交中的 <code>data/letter.txt</code> 和 <code>data/number.txt</code> 文件内容是一样的。索引和 <code>HEAD</code> 提交的散列值都指向的都是 BLOB 对象，但是工作拷贝的内容是作文文本文件存放在不同的地方的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'2'</span> &gt; data/number.txt</span><br></pre></td></tr></table></figure>
+<p>用户将 <code>data/number.txt</code> 的内容设置为 <code>2</code>。该操作更新了工作拷贝，但是没有改变 <code>HEAD</code> 提交以及索引。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/b4e3ea85-a1e8-4123-b4ed-52a4d0b10111.png" alt="工作拷贝中的 `data/number.txt` 设置为 2"><br>工作拷贝中的 <code>data/number.txt</code> 设置为 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git add data/number.txt</span><br></pre></td></tr></table></figure>
+<p>用户将文件添加到 Git。该操作在 <code>object</code> 目录中创建了一个内容为 <code>2</code> 的 BLOB 文件。在新的 BLOB 文件中添加了一条指向 <code>data/number.txt</code> 的索引项。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/6940968e-14ee-48ea-ac52-400a2daddb2e.png" alt="工作拷贝和索引中的 `data/number.txt` 设置为 2"><br>工作拷贝和索引中的 <code>data/number.txt</code> 设置为 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git commit -m <span class="string">'a2'</span></span><br><span class="line">          [master f0af7e6] a2</span><br></pre></td></tr></table></figure>
+<p>用户提交。步骤同上。</p>
+<p>第一步，创建了一个代表索引内容的树图。</p>
+<p><code>data/number</code> 的索引项发生了改变。旧的 <code>data</code> 树不能再反映当前的 <code>data</code> 目录的索引状态。所以必须创建一个一个新的 <code>data</code> 树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">100664 blob 2e65efe2a145dda7ee51d1741299f848e5bf752e letter.txt</span><br><span class="line">100664 blob d8263ee9860594d2806b0dfd1bfd17528b0ba2a4 number.txt</span><br></pre></td></tr></table></figure>
+<p>新的 <code>data</code> 树与旧的 <code>data</code> 树散列值不同。必须创建一个新的 <code>root</code> 树来记录当前散列值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">040000 tree 40b0318811470aaacc577485777d7a6780e51f0b data</span><br></pre></td></tr></table></figure>
+<p>第二步，创建一个新的提交对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tree ce72afb5ff229a39f6cce47b00d1b0ed60fe3556</span><br><span class="line">parent 774b54a193d6cfdd081e581a007d2e11f784b9fe</span><br><span class="line">author Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1424813101 -0500</span><br><span class="line">committer Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1424813101 -0500</span><br><span class="line"></span><br><span class="line">a2</span><br></pre></td></tr></table></figure>
+<p>提交对象的第一行指向了新的 <code>tree</code> 对象。第二行指向 <code>a1</code> 提交：当前提交的父提交。要找到父提交，Git 首先找到头指针 <code>HEAD</code>，然后顺着找到 <code>master</code> 然后获得 <code>a1</code> 提交的散列值。</p>
+<p>第三步，将 <code>master</code> 分支文件的内容设置为新提交的散列值。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/52fe0759-8197-4241-806b-c93865dc45e2.png" alt="`a2` 提交"><br><code>a2</code> 提交</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/528d1d9e-9fd9-4ccc-8080-666cf3ddf7ce.png" alt="不包括工作拷贝和索引的 Git 图"><br>不包括工作拷贝和索引的 Git 图</p>
+<p><strong>图属性</strong>： 内容被储存为一个树对象。这表明只有差异被储存在对象数据库中。从上图可以看出。<code>a2</code> 提交重复使用了在 <code>a1</code> 提交之前创建的 <code>a</code> BLOB 文件。类似的，如果整个工作目录的内容在一次次提交中没有发生改变，树对象以及所有的 BLOB 文件都能够被重复使用。通常来说，各次提交之间只有很小的改动。这也就意味着 Git 能够使用很小的空间来储存大量的提交历史。</p>
+<p><strong>图属性</strong>：每个提交都有一个父提交，也就是说仓库可以储存项目的历史改动。</p>
+<p><strong>图属性</strong>：引用（refrences 或者 refs，译者注）是指向一部分提交历史或者其他的条目。也就是说可以给提交取一个有意义的名字。用户将它们的工作组织成单行的固定短语，比如 <code>fix-for-bug-376</code>。Git 使用了一些像 <code>HEAD</code>，<code>MERGE_HEAD</code> 和 <code>FETCH_HEAD</code> 的符号引用来支持一些用来处理提交历史的命令。</p>
+<p><strong>图属性</strong>：<code>objects/</code> 目录中的节点都是不可变的。也就是说其中的内容能编辑但是不能删除。你添加到仓库中的所有内容以及你所做的每一个提交都存放在 <code>objects</code> 目录[^3]中的某个地方.</p>
+<p><strong>图属性</strong>：引用是可变的。因此，可以改变一个引用的意义。<code>master</code> 所指向的提交可能是当前项目的最好的版本，但是过段时间，它将会被一个更新的或者更好的提交所取代。</p>
+<p><strong>图属性</strong>：由引用所指向的工作拷贝以及提交很容易获取，但是获取其他的引用就不那么简单了。也就是说调出最近的提交历史更加容易，但是那也会时常会改变。</p>
+<p>工作拷贝是最容易在历史提交中调出的，因为它是仓库的根节点。调出它甚至不需要执行 Git 命令。同时它也是提交历史中的最早的永久节点。用户可以创建一个文件的许多版本，但是如果没有对它们执行 <code>add</code> 操作的话，Git 将不会记录它们。</p>
+<p>头指针 <code>HEAD</code> 所指向的提交很容易被调出。它在检出分支的顶端。要查看其中的内容，用户只需执行 stash[^4] 然后检出工作拷贝。同时，<code>HEAD</code> 改变频率最高的引用。</p>
+<p>有固定引用指向的提交很容易被调出。用户可以轻易的检出那个分支。分支的顶端通常没有 <code>HEAD</code> 的改变频率高，but often enough for the meaning of a branch name to be changeable.</p>
+<p>要调出没有被任何引用所指向的提交很困难。用户在某个引用上提交得越多，操作之前的提交就越不容易。但我们通常很少操作很久之前的提交[^5]。</p>
+<h3 id="检出一个提交"><a href="#检出一个提交" class="headerlink" title="检出一个提交"></a>检出一个提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout 37888c2</span><br><span class="line">          You are <span class="keyword">in</span> <span class="string">'detached HEAD'</span> state...</span><br></pre></td></tr></table></figure>
+<p>用户通过对应的散列值来检出 <code>a2</code> 提交。（你过你照搬了以上的 Git 命令，在你的电脑上不会起作用。请使用 <code>git log</code> 命令来查找 <code>a2</code> 提交的散列值。）</p>
+<p>检出有以下 4 个步骤。</p>
+<p>第一步，Git 获得 <code>a2</code> 提交以及其指向的树图。<br>工作区的内容已经和树图保持一致了，因为我们的HEAD之前就已经通过master指向a2提交了。</p>
+<p>第二步，将树图中的文件写入工作拷贝中。这不会产生什么变化。工作拷贝的内容已经和树图中的保持一致了，因为头指针 <code>HEAD</code> 早已经通过 <code>master</code> 指向了 <code>a2</code> 提交。</p>
+<p>第三步，Git 将树图中的文件写入索引。同样，这也不会产生什么变化，index 早就有 <code>a2</code> 提交的内容了。</p>
+<p>第四步，头指针 <code>HEAD</code> 的内容被设置为 <code>a2</code> 提交的散列值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f0af7e62679e144bb28c627ee3e8f7bdb235eee9</span><br></pre></td></tr></table></figure>
+<p>对 <code>HEAD</code> 写入一个散列值会导致仓库进入头指针分离状态。注意下图中的 <code>HEAD</code> 直接指向了 <code>a2</code> 提交，而不是指向 <code>master</code>。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/dfee80a2-f92b-48e8-a457-50d7e1e910b9.png" alt="分离头指针到 `a2` 提交"><br>分离头指针到 <code>a2</code> 提交</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'3'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'a3'</span></span><br><span class="line">          [detached HEAD 3645a0e] a3</span><br></pre></td></tr></table></figure>
+<p>用户将 <code>data/number.txt</code> 的值设置为 <code>3</code> 然后提交更改。Git 找到 <code>HEAD</code> 然后找到 <code>a3</code> 提交的父提交。这回返回 <code>a2</code> 提交的散列值而不是查找一个分支引用。</p>
+<p>Git 将 <code>HEAD</code> 更新，使其直接指向 <code>a3</code> 提交的哈希值。此时仓库仍然处于头指针分离状态，而没有在一个分支上，因为没有引用指向 <code>a3</code> 提交亦或是它之后的提交。这意味着它很容易丢失。</p>
+<p>从现在起，图示中大多的树和 BLOB 都会省略。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/ce4fb585-537b-4a50-baf5-e4edc4fea7fc.png" alt="没有在分支上的 `a3` 提交"><br>没有在分支上的 <code>a3</code> 提交</p>
+<h3 id="创建一个分支"><a href="#创建一个分支" class="headerlink" title="创建一个分支"></a>创建一个分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git branch deputy</span><br></pre></td></tr></table></figure>
+<p>用户创建了一个新的叫做 <code>deputy</code> 的分支。这个操作在 <code>.git/refs/heads/deputy</code> 目录下创建了新文件，其包含了 <code>HEAD</code> 指向的散列值：<code>a3</code> 提交的散列值。</p>
+<p><strong>图属性</strong>：分支其实就是引用，而引用其实就是文件。这也就是说 Git 的分支是很轻量的。</p>
+<p>创建 <code>deputy</code> 分支的操作实际上将新的 <code>a3</code> 提交安全地放在了一个新的分支上。<code>HEAD</code> 指针目前仍处于分离状态，因为它现在仍是直接指向了一个提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/cd28055d-823d-4774-acaa-e0226c25b748.png" alt="处于 `deputy` 分支的 `a3` 提交"><br>处于 <code>deputy</code> 分支的 <code>a3</code> 提交</p>
+<h3 id="检出分支"><a href="#检出分支" class="headerlink" title="检出分支"></a>检出分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout master</span><br><span class="line">          Switched to branch <span class="string">'master'</span></span><br><span class="line">		  ---</span><br><span class="line">          检出<span class="string">'master'</span>分支</span><br></pre></td></tr></table></figure>
+<p>用户检出了’master’分支</p>
+<p>首先, Git 找到’master’分支所指向的<code>a2</code>提交对象并获取该提交对象所指向的树对象.</p>
+<p>接下来 Git 会将树对象储存的文件写到当前工作副本中, 该操作将覆写<code>data/number.txt</code>为<code>2</code>.</p>
+<p>第三步, Git 将树对象中的文件入口写入 index, <code>data/number.txt</code>的文件入口将会被更新为<code>2</code> blob 的 hash 值</p>
+<p>最后 Git 通过将<code>HEAD</code>中的 hash 值替换为如下内容来使<code>HEAD</code>指向<code>master</code>分支:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ref: refs/heads/master</span><br></pre></td></tr></table></figure>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/811ef648-b184-4fb2-8aca-566fc4b5d88f.png" alt="`master`分支被检出, 指向&#39;a2&#39;提交"><br><code>master</code>分支被检出, 指向’a2’提交</p>
+<h3 id="检出与当前工作副本相冲突的分支"><a href="#检出与当前工作副本相冲突的分支" class="headerlink" title="检出与当前工作副本相冲突的分支"></a>检出与当前工作副本相冲突的分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'789'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git checkout deputy</span><br><span class="line">          Your changes to these files would be overwritten</span><br><span class="line">          by checkout:</span><br><span class="line">            data/number.txt</span><br><span class="line">          Commit your changes or stash them before you</span><br><span class="line">          switch branches.</span><br><span class="line">          ---</span><br><span class="line">	      对以下文件做出的更改将在检出中被覆盖:</span><br><span class="line">		      data/number.txt</span><br><span class="line">		  请在检出前将这些更改提交或储藏.</span><br></pre></td></tr></table></figure>
+<p>用户无意中将<code>data/number.txt</code>的内容更改为<code>789</code>, 此时他尝试检出<code>deputy</code>分支, Git 没有执行这次检出.</p>
+<p>当前<code>HEAD</code>指向 <code>master</code>分支, 其所指向提交<code>a2</code>中<code>data/number.txt</code>的内容为<code>2</code>. <code>deputy</code>分支指向的提交<code>a3</code>中<code>data/number.txt</code>的内容为<code>3</code>. 当前工作副本中<code>data/number.txt</code>的内容为<code>789</code>. 这个文件的各个版本各不相同, 必须通过一种方法来消除这些差异.</p>
+<p>如果 Git 将当前版本的<code>data/number.txt</code>替换成将要检出的分支中的版本则会造成数据遗失, Git 不允许这种情况发生.</p>
+<p>如果 Git 将要检出的分支与当前工作副本合并则会导致冲突</p>
+<p>因此 Git 中断了此次检出.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'2'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git checkout deputy</span><br><span class="line">          Switched to branch <span class="string">'deputy'</span></span><br></pre></td></tr></table></figure>
+<p>用户注意到了对<code>data/number.txt</code>的意外操作, 在把它的内容修改回<code>2</code>后成功检出了<code>deputy</code>分支.</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/8ce57f10-b904-499d-8d52-8a7c62c67665.png" alt="`deputy` 分支被检出"><br><code>deputy</code> 分支被检出</p>
+<h3 id="合并一个祖先分支"><a href="#合并一个祖先分支" class="headerlink" title="合并一个祖先分支"></a>合并一个祖先分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git merge master</span><br><span class="line">          Already up-to-date.</span><br></pre></td></tr></table></figure>
+<p>用户将<code>master</code>分支合并到<code>deputy</code>中. 合并两个分支其本质为合并两个提交对象. 其一－作为接受者(receiver)－是<code>deputy</code>所指向的提交对象, 其二－作为给予者(giver)－是<code>master</code>所指向的提交对象. 在这次合并中 Git 不会执行任何操作, 而仅仅打印出<code>Already up-to-date.</code>.</p>
+<p><strong>[图属性]</strong>: 图示中的一系列提交对象可以被认为是对仓库内容进行的一些列更改. 因此在一次合并当中, 若想要并入的分支是当前分支的祖先分支, Git不会执行任何操作, 因为想要并入分支中的改动已经被包含在了当前分支中.</p>
+<h3 id="合并后代提交"><a href="#合并后代提交" class="headerlink" title="合并后代提交"></a>合并后代提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout master</span><br><span class="line">          Switched to branch <span class="string">'master'</span></span><br></pre></td></tr></table></figure>
+<p>用户检出了 <code>master</code> 分支.</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/ee137c5c-9d93-4728-8c97-fc97bb92b68b.png" alt="`master` checked out and pointing at the `a2` commit"><br><code>master</code> 被检出并指向了 <code>a2</code> 提交</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git merge deputy</span><br><span class="line">          Fast-forward</span><br></pre></td></tr></table></figure>
+<p>他们合并 <code>deputy</code> 分支到 <code>master</code>。Git 发现赠予提交的 <code>a2</code> 是源提交 <code>a3</code> 的祖先提交。这里可以执行 fast-forward 合并。</p>
+<p>Git 获取赠予提交和它指向的树图，将树图中的文件写入工作区和 index。这将 <code>master</code> 分支 <code>fast-forward</code> 到了 <code>a3</code> 提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/01295a6a-4605-4d2f-8e42-1fbf83b4cd86.png" alt="`a3` commit from `deputy` fast-forward merged into `master`"><br><code>deputy</code> 分支的 <code>a3</code> 提交 fast-forward 合并到了 <code>master</code> 分支</p>
+<p><strong>图属性</strong>：图中的提交系列被视为对仓库内容的一系列更改。这意味着，如果赠予提交是接收提交的后代提交，提交历史不会变。已经存在一序列提交来描述赠予提交和接收提交之间的变化。但是尽管 Git 历史不变，Git 的状态图是会改变的。<code>HEAD</code> 指向的具体引用会更新以指向赠予提交。</p>
+<h3 id="合并不同提交线的两个提交"><a href="#合并不同提交线的两个提交" class="headerlink" title="合并不同提交线的两个提交"></a>合并不同提交线的两个提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'4'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'a4'</span></span><br><span class="line">          [master 7b7bd9a] a4</span><br></pre></td></tr></table></figure>
+<p>用户将文件  <code>number.txt</code>  的内容改为 <code>4</code>  然后提交到  <code>master</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout deputy</span><br><span class="line">          Switched to branch <span class="string">'deputy'</span></span><br><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'b'</span> &gt; data/letter.txt</span><br><span class="line">~/alpha $ git add data/letter.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'b3'</span></span><br><span class="line">          [deputy 982dffb] b3</span><br></pre></td></tr></table></figure>
+<p>用户检出  <code>deputy</code> 分支，将文件  <code>data/letter.txt</code>  内容改为  <code>b</code> 然后提交到  <code>deputy</code> 分支。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/80719b96-0028-4998-810e-cb5ab96c3f12.png" alt="`a4` committed to `master`, `b3` committed to `deputy` and `deputy` checked out"><br><code>a4</code> 提交到 <code>master</code>, <code>b3</code> 提交到 <code>deputy</code> ， <code>deputy</code> 被检出</p>
+<p><strong>图属性</strong>: 多个提交可以共用一个父提交，这意味着新提交线可以在提交历史里创建出来。</p>
+<p><strong>图属性</strong>: 某提交可以有多个父提交，这意味着两个不同的提交线可以被一个合并提交来合并。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git merge master -m <span class="string">'b4'</span></span><br><span class="line">          Merge made by the <span class="string">'recursive'</span> strategy.</span><br></pre></td></tr></table></figure>
+<p>用户合并 <code>master</code> 到 <code>deputy</code>.</p>
+<p>Git 发现接收提交 <code>b3</code>和赠予提交 <code>a4</code>在不同的提交线上。它创建了一个合并提交。这个过程总共分八步。</p>
+<p>第一步，Git 将接收提交的哈希值写入文件 <code>alpha/.git/MERGE_HEAD</code>。此文件的存在说明 Git 正在做合并操作。</p>
+<p>第二步，Git 查找基提交：即接收提交和赠予提交共有的一个最近父提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/4eb43dad-cf0c-4281-8e4c-e9e1b7a797da.png" alt="`a3`, the base commit of `a4` and `b3`"><br><code>a3</code> 是  <code>a4</code>  和  <code>b3</code> 的基提交</p>
+<p>图属性：每个提交都有一个父提交。这意味着我们可以发现两个提交线分开自哪个提交。Git 查找 <code>b3</code> 和 <code>a4</code> 的所有祖先提交，发现了最近的公共父提交 <code>a3</code>，即为他们的基提交。</p>
+<p>第三步，Git 为基提交、接收提交和赠予提交创建索引。</p>
+<p>第四步，Git 产生接收提交和赠予提交相对于基提交的 diff，此处的 diff 是一个文件路径列表，指向一个变化：包括添加、移除、修改或冲突。</p>
+<p>Git 获取基提交、接收提交和赠予提交的文件列表，针对每一个文件，通过对比 index 来判断它的状态与写入变更。它将对应条目写入 diff。在这个例子中，diff 包含两个条目。</p>
+<p>第一项记录 <code>data/letter.txt</code> 的状态。该文件内容分别是基提交中的  <code>a</code> 、接收提交中的<code>b</code>和赠予提交中的<code>a</code>。文件内容在基提交和接收提交不同，但在基提交和赠予提交相同。Git 发现文件内容被接收提交修改了，而不是在赠予提交中。<code>data/letter.txt</code> 的状态是修改，而不是冲突。</p>
+<p>第二项记录 <code>data/number.txt</code> 的变更。在这个例子中，该文件内容在基提交和接收提交中是相同的，但在基提交和赠予提交是不同的。 <code>data/number.txt</code> 条目的状态也是修改。</p>
+<p><strong>图属性</strong>：查找一个合并操作的基提交是可行的。这意味着，如果基提交中的一个文件只在接收提交或赠予提交做了修改，Git 可以自动除了合并文件，这样就减少了用户的工作量。</p>
+<p>第五步，Git 将差异中的项被应用到工作区。<code>data/letter.txt</code> 内容被修改为<code>b</code>，<code>data/number.txt</code> 内容被修改为 <code>4</code>。</p>
+<p>第六步，Git 将差异中的项应用到 index。<code>data/letter.txt</code> 会指向内容为 <code>b</code> 的 blob，<code>data/number.txt</code> 会指向内容为 <code>4</code> 的 blob。</p>
+<p>第七步，更新后的 index 被提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tree 20294508aea3fb6f05fcc49adaecc2e6d60f7e7d</span><br><span class="line">parent 982dffb20f8d6a25a8554cc8d765fb9f3ff1333b</span><br><span class="line">parent 7b7bd9a5253f47360d5787095afc5ba56591bfe7</span><br><span class="line">author Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1425596551 -0500</span><br><span class="line">committer Mary Rose Cook &lt;mary@maryrosecook.com&gt; 1425596551 -0500</span><br><span class="line"></span><br><span class="line">b4</span><br></pre></td></tr></table></figure>
+<p>注意，这个提交有两个父提交。</p>
+<p>第八步，Git 将当前分支 <code>deputy</code> 指向新提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/d0fed804-09e8-4783-a54e-a90dfc2a0af5.png" alt="`b4`, the merge commit resulting from the recursive merge of `a4` into `b3`"><br> <code>a4</code>递归合并入 <code>b3</code> 产生 <code>b4</code></p>
+<h3 id="合并不同提交线且有相同修改文件的两个提交"><a href="#合并不同提交线且有相同修改文件的两个提交" class="headerlink" title="合并不同提交线且有相同修改文件的两个提交"></a>合并不同提交线且有相同修改文件的两个提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout master</span><br><span class="line">          Switched to branch <span class="string">'master'</span></span><br><span class="line">~/alpha $ git merge deputy</span><br><span class="line">          Fast-forward</span><br></pre></td></tr></table></figure>
+<p>用户检出 <code>master</code>，他们将 <code>deputy</code> 合并到 <code>master</code>。此操作将<code>master</code> fast-forwards 指向 <code>b4</code>。<code>master</code> 和 <code>deputy</code> 现指向了相同的提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/5465bf93-07a3-46bf-8adb-85f562ed1cc5.png" alt="`deputy` merged into `master` to bring `master` up to the latest commit, `b4`"><br><code>deputy</code> 合并到 <code>master</code> 将 <code>master</code> 更新到新提交 <code>b4</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout deputy</span><br><span class="line">          Switched to branch <span class="string">'deputy'</span></span><br><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'5'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'b5'</span></span><br><span class="line">          [deputy bd797c2] b5</span><br></pre></td></tr></table></figure>
+<p>用户检出 <code>deputy</code>。将 <code>data/number.txt</code> 内容修改为 <code>5</code>并提交到 <code>deputy</code>  分支。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git checkout master</span><br><span class="line">          Switched to branch <span class="string">'master'</span></span><br><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'6'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'b6'</span></span><br><span class="line">          [master 4c3ce18] b6</span><br></pre></td></tr></table></figure>
+<p>用户检出 <code>master</code>。将 <code>data/number.txt</code> 内容修改为 <code>6</code> 并提交到 <code>master</code> 分支。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/eefd5217-39cd-4847-89f0-029cdde0d2fc.png" alt="`b5` commit on `deputy` and `b6` commit on `master`"><br><code>b5</code> 提交在 <code>deputy</code>   <code>b6</code> 提交在 <code>master</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git merge deputy</span><br><span class="line">          CONFLICT <span class="keyword">in</span> data/number.txt</span><br><span class="line">          Automatic merge failed; fix conflicts and</span><br><span class="line">          commit the result.</span><br></pre></td></tr></table></figure>
+<p>用户将 <code>deputy</code> 合并到 <code>master</code>。这里存在冲突故合并中止。对于有冲突的合并操作，执行步骤和没有冲突的合并的前六步是相同的：设置 <code>.git/MERGE_HEAD</code>，查找基提交，创建基提交、接收提交和赠予提交的索引，生成 diff，更新工作区，更新 index。由于冲突，第七步提交和第八步更新 ref 不再执行。让我们再来看看这些步骤，观察到底发生了什么。</p>
+<p>第一步，Git 将赠予提交的哈希值写入 <code>.git/MERGE_HEAD</code>.</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/3d00a7b8-b5a7-4afc-8d57-e464ab4abab7.png" alt="`MERGE_HEAD` written during merge of `b5` into `b6`"><br><code>MERGE_HEAD</code> 写入在 <code>b5</code> 合并入 <code>b6</code></p>
+<p>第二步，Git 查找到基提交, <code>b4</code>.</p>
+<p>第三步，Git 创建基提交、接收提交和赠予提交的索引。</p>
+<p>第四步，Git 生成集合了接收提交和赠予提交相对于基提交的差异列表，这个 diff 是一份指向变更的文件路径：添加、删除、修改或冲突。</p>
+<p>在本例中，差异列表仅包含一项： <code>data/number.txt</code>。它的状态被标为冲突因为其内容在接收提交，赠予提交和基提交中都是变化的。</p>
+<p>第五步，差异列表中的文件被写入工作区。对于冲突的部分，Git 将两个版本都写入工作区的文件中。<code>data/number.txt</code>  的内容被变更为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">6</span><br><span class="line">=======</span><br><span class="line">5</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; deputy</span><br></pre></td></tr></table></figure>
+<p>第六步，差异列表中的文件被写入 index。index 中的项被文件路径和 stage 的组合唯一标识。没有冲突的项 stage 为 <code>0</code>。在该合并前，index 看起来像下面的样子，标有 <code>0</code> 的是 stage 值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 data/letter.txt 63d8dbd40c23542e740659a7168a0ce3138ea748</span><br><span class="line">0 data/number.txt 62f9457511f879886bb7728c986fe10b0ece6bcb</span><br></pre></td></tr></table></figure>
+<p>在合并 diff 写入 index 后，index 变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 data/letter.txt 63d8dbd40c23542e740659a7168a0ce3138ea748</span><br><span class="line">1 data/number.txt bf0d87ab1b2b0ec1a11a3973d2845b42413d9767</span><br><span class="line">2 data/number.txt 62f9457511f879886bb7728c986fe10b0ece6bcb</span><br><span class="line">3 data/number.txt 7813681f5b41c028345ca62a2be376bae70b7f61</span><br></pre></td></tr></table></figure>
+<p>stage <code>0</code> 的 <code>data/letter.txt</code> 项和合并前是一样的。stage <code>0</code> 的 <code>data/number.txt</code> 项已经不存在，取代的是三个新项。stage <code>1</code> 的项包含该文件在基提交中内容的哈希值，stage <code>2</code> 包含接收提交的哈希值，stage <code>3</code>包含赠予提交的哈希值。这三项表明文件 <code>data/number.txt</code> 存在冲突。</p>
+<p>合并中止了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'11'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br></pre></td></tr></table></figure>
+<p>用户通过将 <code>data/number.txt</code> 的内容修改为 <code>11</code>将两个有冲突的文件合并，将文件添加到 index，Git 创建一个包含<code>11</code> 的 blob，创建一个冲突文件以告诉 Git 冲突已经解决了。Git 移除 index 中的 <code>1</code>, <code>2</code> 和 <code>3</code>，并添加 stage 为 <code>0</code> 的 <code>data/number.txt</code> 项，该项指向新创建 blob 的哈希值。现在 index 变为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 data/letter.txt 63d8dbd40c23542e740659a7168a0ce3138ea748</span><br><span class="line">0 data/number.txt 9d607966b721abde8931ddd052181fae905db503</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git commit -m <span class="string">'b11'</span></span><br><span class="line">          [master 251a513] b11</span><br></pre></td></tr></table></figure>
+<p>第七步，用户进行提交。Git 发现存在 <code>.git/MERGE_HEAD</code>，意味着合并还在进行中。通过检查 index 发现没有冲突。它创建了一个新提交 <code>b11</code>，用来记录合并后的内容。然后删除 <code>.git/MERGE_HEAD</code>。合并完成。</p>
+<p>第八步，Git 将当前分支 master 指向新提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/143f5225-385c-4d0a-bbaa-210d1a133dd5.png" alt="`b11`, the merge commit resulting from the conflicted, recursive merge of `b5` into `b6`"><br> <code>b5</code> 和 <code>b6</code>递归合并为<code>b11</code>  </p>
+<h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><p>这幅 Git 示意图包含对于最后一次提交的历史提交、树对象、储存对象、工作副本以及索引。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/dde3e6e1-5cc4-427a-a70f-bca0da91588b.png" alt="The working copy, index, `b11` commit and its tree graph"><br>工作副本、索引， <code>b11</code> 提交以及它的树对象。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git rm data/letter.txt</span><br><span class="line">          rm <span class="string">'data/letter.txt'</span></span><br></pre></td></tr></table></figure>
+<p>该用户告诉 Git 删除 <code>data/letter.txt</code>。 文件将从工作副本中删除，该文件的入口也将从索引中消失。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/6d9794f4-8374-4092-b1a8-a7bc88efe95b.png" alt="After `data/letter.txt` `rm`ed from working copy and index"><br>After <code>data/letter.txt</code> <code>rm</code>ed from working copy and index<br> <code>data/letter.txt</code> 从工作副本以及索引中 <code>rm</code> 过后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git commit -m <span class="string">'11'</span></span><br><span class="line">          [master d14c7d2] 11</span><br></pre></td></tr></table></figure>
+<p>该用户进行提交了。 一般说来，Git 会在提交时构建一张树图代表索引内容，<code>data/letter.txt</code> 并不会出现在树中，因为它不在索引里。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/ecc82701-37fd-4509-b300-7e9199d7a511.png" alt="`11` commit made after `data/letter.txt` `rm`ed"><br><code>data/letter.txt</code> 删除后进行 <code>11</code> 提交</p>
+<h3 id="复制一个库"><a href="#复制一个库" class="headerlink" title="复制一个库"></a>复制一个库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">cd</span> ..</span><br><span class="line">      ~ $ cp -R alpha bravo</span><br></pre></td></tr></table></figure>
+<p>用户复制 <code>alpha/</code> 库中的内容到 <code>bravo/</code> 目录中，使得目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">├── alpha</span><br><span class="line">|   └── data</span><br><span class="line">|       └── number.txt</span><br><span class="line">└── bravo</span><br><span class="line">    └── data</span><br><span class="line">        └── number.txt</span><br></pre></td></tr></table></figure>
+<p><code>bravo</code> 目录即生成另一张 Git 图：</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/43030a5c-7727-4be4-a406-07bbb392256c.png" alt="New graph created when `alpha` `cp`ed to `bravo`"><br>当 <code>alpha</code> <code>cp</code> 至 <code>bravo</code> 后产生的新图</p>
+<h3 id="链接至另一个库"><a href="#链接至另一个库" class="headerlink" title="链接至另一个库"></a>链接至另一个库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">      ~ $ <span class="built_in">cd</span> alpha</span><br><span class="line">~/alpha $ git remote add bravo ../bravo</span><br></pre></td></tr></table></figure>
+<p>用户回到 <code>alpha</code> 库中，设置 <code>bravo</code> 为一个 <code>alpha</code> 的远程库，这会使 <code>alpha/.git/config</code> 多了这几行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[remote &quot;bravo&quot;]</span><br><span class="line">	url = ../bravo/</span><br></pre></td></tr></table></figure>
+<p>这几行说明有个叫 <code>bravo</code> 的远程库在 <code>../bravo</code> 中。</p>
+<h3 id="获取远程分支"><a href="#获取远程分支" class="headerlink" title="获取远程分支"></a>获取远程分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">cd</span> ../bravo</span><br><span class="line">~/bravo $ <span class="built_in">printf</span> <span class="string">'12'</span> &gt; data/number.txt</span><br><span class="line">~/bravo $ git add data/number.txt</span><br><span class="line">~/bravo $ git commit -m <span class="string">'12'</span></span><br><span class="line">          [master 94cd04d] 12</span><br></pre></td></tr></table></figure>
+<p>进入 <code>bravo</code> 目录. 覆写 文件 <code>data/number.txt</code> 为 <code>12</code> ，将改动提交到<code>bravo</code>仓库的分支 <code>master</code>.</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/148d51fe-fc62-4d70-901c-dbafe2d3d9f1.png" alt="`12` commit on `bravo` repository"></p>
+<p><code>bravo</code> 仓库中的一个提交<code>12</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~/bravo $ <span class="built_in">cd</span> ../alpha</span><br><span class="line">~/alpha $ git fetch bravo master</span><br><span class="line">          Unpacking objects: 100%</span><br><span class="line">          From ../bravo</span><br><span class="line">            * branch master -&gt; FETCH_HEAD</span><br></pre></td></tr></table></figure>
+<p>进入 <code>alpha</code> 目录，从 <code>bravo</code>仓库获取 <code>master</code>分支到 <code>alpha</code> 仓库到 <code>master</code> 分支。这个过程包含了四个步骤。</p>
+<p>第一步，Git 获取 <code>bravo</code>仓库中 <code>master</code> 分支所指向提交的 hash 值，即 提交 <code>12</code> 所对应的 hash 值。</p>
+<p>第二步，Git 会给做出 <code>12</code> 这个提交依赖的所有对象组成的一个列表：包含了提交对象自身，树图中的对象，提交 <code>12</code> 所对应的父提交，父提交树图对象。然后从列表中移除所有在 alpha 仓库对象数据库中已有的对象。复制剩下的对象到目录 <code>alpha/.git/objects/</code>。</p>
+<p>第三步，将 <code>12</code>这个提交的 hash 值 写入文件 <code>alpha/.git/refs/remotes/bravo/master</code> 。</p>
+<p>第四步，文件 <code>alpha/.git/FETCH_HEAD</code> 内容被置为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">94cd04d93ae88a1f53a4646532b1e8cdfbc0977f branch &apos;master&apos; of ../bravo</span><br></pre></td></tr></table></figure>
+<p>文件内容表明从 <code>bravo</code> 仓库 <code>master</code> 分支获取了 <code>12</code> 这个提交。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/e602667a-1277-4e27-ac0d-34c8b2ae00f6.png" alt="`alpha` after `bravo/master` fetched"></p>
+<p>从 <code>bravo/master</code> 获取后的<code>alpha</code>仓库状态</p>
+<p><strong>图属性</strong>： 对象可以被复制。以为址不同仓库间可以共享对象。</p>
+<p><strong>图属性</strong>：一个仓库可以存储远程分支的引用，例如 <code>alpha/.git/refs/remotes/bravo/master</code> 。意味着，仓库可以在本地记录远程分支的状态。如果远程分支没有改变，这个状态就一直是正确的。</p>
+<h3 id="合并分支-FETCH-HEAD"><a href="#合并分支-FETCH-HEAD" class="headerlink" title="合并分支 FETCH_HEAD"></a>合并分支 FETCH_HEAD</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git merge FETCH_HEAD</span><br><span class="line">          Updating d14c7d2..94cd04d</span><br><span class="line">          Fast-forward</span><br></pre></td></tr></table></figure>
+<p>用户合并了分支<code>FETCH_HEAD</code>，这个分支也是一个指向某个提交的一个引用，被解析为指向 <code>12</code> 这个提交的一个引用。</p>
+<p>合并前，<code>HEAD</code> 指向此次被合并的引用,  <code>11</code> 这个提交。 完成 <code>fast-forward</code> 合并后， <code>HEAD</code>指向提交 <code>12</code>。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/e8af2aaf-ab84-4c4d-bb1a-1934a956f7af.png" alt="`alpha` after `FETCH_HEAD` merged"></p>
+<p><code>alpha</code>仓库合并<code>FETCH_HEAD</code>后的状态</p>
+<h3 id="拉取远程仓库"><a href="#拉取远程仓库" class="headerlink" title="拉取远程仓库"></a>拉取远程仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git pull bravo master</span><br><span class="line">          Already up-to-date.</span><br></pre></td></tr></table></figure>
+<p>拉取远程仓库 <code>bravo</code> 的 <code>master</code> 分支到本地仓库 <code>alpha</code>。<code>pull</code> 操作是 “获取然后合并<code>FETCH_HEAD</code> “ 这两个命令的一个快捷方式。执行了这个命令后，反馈 <code>Already up-to-date</code>, 说明本地和远程内容一样。</p>
+<h3 id="克隆一个仓库"><a href="#克隆一个仓库" class="headerlink" title="克隆一个仓库"></a>克隆一个仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">cd</span> ..</span><br><span class="line">      ~ $ git <span class="built_in">clone</span> alpha charlie</span><br><span class="line">          Cloning into <span class="string">'charlie'</span></span><br></pre></td></tr></table></figure>
+<p>切换到 <code>alpha</code> 的上级目录，克隆仓库<code>alpha</code> 到目录 <code>charlie</code>，这个操作的结果，如同通过复制到到<code>bravo</code>仓库。</p>
+<p>克隆仓库做的事情包括：创建新目录<code>charlie</code>; 在目录<code>charlie</code>下初始化仓库；将 <code>alpha</code> 作为远程仓库的 <code>origin</code>分支； 获取 <code>origin</code> 分支到本地；合并分支 <code>FETCH_HEAD</code>。</p>
+<h3 id="推送本地分支到远程仓库"><a href="#推送本地分支到远程仓库" class="headerlink" title="推送本地分支到远程仓库"></a>推送本地分支到远程仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      ~ $ <span class="built_in">cd</span> alpha</span><br><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'13'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'13'</span></span><br><span class="line">          [master 3238468] 13</span><br></pre></td></tr></table></figure>
+<p>切换回 <code>alpha</code>仓库， 覆写文件 <code>data/number.txt</code> 为 <code>13</code> ，将改动提交到<code>alpha</code>仓库的分支 <code>master</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git remote add charlie ../charlie</span><br></pre></td></tr></table></figure>
+<p>将本地目录<code>charlie</code> 作为本地仓库的<code>alpha</code> 的一个远程仓库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git push charlie master</span><br><span class="line">          Writing objects: 100%</span><br><span class="line">          remote error: refusing to update checked out</span><br><span class="line">          branch: refs/heads/master because it will make</span><br><span class="line">          the index and work tree inconsistent</span><br></pre></td></tr></table></figure>
+<p>推送本地仓库的<code>master</code> 分支到远程仓库 <code>charlie</code>。</p>
+<p><code>13</code> 这个提交所需要的所有对象，被复制到到远程仓库<code>charlie</code>中。</p>
+<p>至此，推送操作完成。和之前一样，如果操作出错，Git 会提示出错内容。例如，Git 会拒绝推送到一个在远程切出的分支。听起来是不是很有道理 ？由于一次推送操作会更新远程索引和 <code>HEAD</code>的指向，如果这个时候有人正在编辑远程副本的时候，就会导致冲突，出现不一致。</p>
+<p>现在，可以创建一个新分支，合并 <code>13</code>这个内容到新分支 ，推送到远程仓库 <code>charlie</code>。但是，希望达到的是可以推送任何想推送的内容到仓库，希望又有一个可以推送和拉取到中心仓库，但是没人能直接推送到此中心仓库。有点像 GitHub 远程操作，最后的解决方案就是，裸库。</p>
+<h3 id="克隆一个裸库"><a href="#克隆一个裸库" class="headerlink" title="克隆一个裸库"></a>克隆一个裸库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">cd</span> ..</span><br><span class="line">      ~ $ git <span class="built_in">clone</span> alpha delta --bare</span><br><span class="line">          Cloning into bare repository <span class="string">'delta'</span></span><br></pre></td></tr></table></figure>
+<p>切换到 <code>alpha</code>上级目录，将裸库到目录 <code>delta</code> 。这个克隆有两点不同。一是<code>config</code>文件表明这是一个裸库；二是，通常位于 <code>.git</code>目录下的文件被现在存放在仓库的根目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">delta</span><br><span class="line">├── HEAD</span><br><span class="line">├── config</span><br><span class="line">├── objects</span><br><span class="line">└── refs</span><br></pre></td></tr></table></figure>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/c67037dc-7598-4eb7-b2f2-0d2ce01652bf.png" alt="`alpha` and `delta` graphs after `alpha` cloned to `delta`"></p>
+<p>克隆<code>alpha</code> 到 <code>delta</code>后的仓库图</p>
+<h3 id="推送分支到裸库"><a href="#推送分支到裸库" class="headerlink" title="推送分支到裸库"></a>推送分支到裸库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">      ~ $ <span class="built_in">cd</span> alpha</span><br><span class="line">~/alpha $ git remote add delta ../delta</span><br></pre></td></tr></table></figure>
+<p>切换到 <code>alpha</code>目录。使用 <code>../delta</code> 目录 创建远程仓库<code>delta</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ <span class="built_in">printf</span> <span class="string">'14'</span> &gt; data/number.txt</span><br><span class="line">~/alpha $ git add data/number.txt</span><br><span class="line">~/alpha $ git commit -m <span class="string">'14'</span></span><br><span class="line">          [master cb51da8] 14</span><br></pre></td></tr></table></figure>
+<p> 覆写文件 <code>data/number.txt</code> 为 <code>14</code> ，将改动提交到<code>alpha</code>仓库的分支 <code>master</code>。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/237349c4-8460-479d-b97b-c56e68c8dcb8.png" alt="`14` commit on `alpha`"></p>
+<p><code>alpha</code> 仓库中的<code>14</code> 提交 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/alpha $ git push delta master</span><br><span class="line">          Writing objects: 100%</span><br><span class="line">          To ../delta</span><br><span class="line">            3238468..cb51da8 master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>推送<code>master</code>到仓库<code>delat</code>。推送过程包含三步：</p>
+<p>第一步，<code>14</code>提交需要的所有对象，从<code>alpha/.git/objects/</code>目录，复制到目录<code>delta/objects/</code>。</p>
+<p>第二步，更新文件<code>delta/refs/heads/master</code>内容，指向提交 <code>14</code>。</p>
+<p>第三步，更新文件<code>alpha/.git/refs/remotes/delta/master</code>内容，指向提交 <code>14</code>。本地仓库<code>alpha</code>就有了远程仓库<code>delta</code>的一份最新状态记录。</p>
+<p><img src="https://dn-coding-net-production-pp.qbox.me/546452c9-b324-46d5-a873-134fb5636a5b.png" alt="`14` commit pushed from `alpha` to `delta`"></p>
+<p>推送<code>alpha</code>仓库到提交<code>14</code>到仓库<code>delta</code></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Git 是在基于图的思想上构建的，几乎所有的 Git 命令都在维护这个图。想要深入理解 Git，就需要把精力集中在这个图的属性上，而不是在 Git 操作流程 或者 Git 命令。</p>
+<p>想要更多的理解 Git，就去详细剖析 <code>.git</code> 目录，看里面都有些什么文件。通过改变文件内容，观察里面这些文件的变化。手动创建提交，看看可以把这个仓库搞什么鬼样子，然后尝试修复这些问题。</p>
+<ol>
+<li>通过这个案例，hash 值比原始文件内容要长。但是，所有文件的内容比 hash 值要长，这样的效果就是，表达的意思比原始文件要更加简洁明了。</li>
+<li>有可能会出现两个不同的文件内容的 hash 值一样，但是，这个 <a href="http://crypto.stackexchange.com/a/2584" target="_blank" rel="noopener">机率很小</a>.。</li>
+<li><code>git prune</code>会删除一个引用不能获取的所有对象。如果使用此命令，可能导致文件内容丢失。</li>
+<li><code>git stash</code>会在一个安全的地方存储<code>HEAD</code>与当前工作区的差异。因此稍后可以恢复工作区。</li>
+<li><code>rebase</code>可以对历史命令进行操作，达到新增，修改，删除提交的目的。</li>
+</ol>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()" title="关闭">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/04/20/转载-深入浅出-Git/">[转载]深入浅出 Git</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Auska 的个人博客">Auska</a></p>
+        <p><span>发布时间:</span>2017年04月20日 - 14时43分</p>
+        <p><span>最后更新:</span>2020年06月02日 - 11时16分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/04/20/转载-深入浅出-Git/" title="[转载]深入浅出 Git">http://auska.github.io/2017/04/20/转载-深入浅出-Git/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://auska.github.io/2017/04/20/转载-深入浅出-Git/　　作者: Auska" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/04/29/Bilibili-直播挂机脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Bilibili 直播挂机脚本
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/19/利用GitLab搭建私有代码库/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">利用GitLab搭建私有代码库</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.</span> <span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化版本库"><span class="toc-number">2.</span> <span class="toc-text">初始化版本库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加一些文件"><span class="toc-number">3.</span> <span class="toc-text">添加一些文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进行一次提交"><span class="toc-number">4.</span> <span class="toc-text">进行一次提交</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个树图"><span class="toc-number">4.1.</span> <span class="toc-text">创建一个树图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个提交对象"><span class="toc-number">4.2.</span> <span class="toc-text">创建一个提交对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将当前分支指向新提交"><span class="toc-number">4.3.</span> <span class="toc-text">将当前分支指向新提交</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个非首次提交"><span class="toc-number">5.</span> <span class="toc-text">创建一个非首次提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检出一个提交"><span class="toc-number">6.</span> <span class="toc-text">检出一个提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个分支"><span class="toc-number">7.</span> <span class="toc-text">创建一个分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检出分支"><span class="toc-number">8.</span> <span class="toc-text">检出分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检出与当前工作副本相冲突的分支"><span class="toc-number">9.</span> <span class="toc-text">检出与当前工作副本相冲突的分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并一个祖先分支"><span class="toc-number">10.</span> <span class="toc-text">合并一个祖先分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并后代提交"><span class="toc-number">11.</span> <span class="toc-text">合并后代提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并不同提交线的两个提交"><span class="toc-number">12.</span> <span class="toc-text">合并不同提交线的两个提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并不同提交线且有相同修改文件的两个提交"><span class="toc-number">13.</span> <span class="toc-text">合并不同提交线且有相同修改文件的两个提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除文件"><span class="toc-number">14.</span> <span class="toc-text">删除文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制一个库"><span class="toc-number">15.</span> <span class="toc-text">复制一个库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接至另一个库"><span class="toc-number">16.</span> <span class="toc-text">链接至另一个库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取远程分支"><span class="toc-number">17.</span> <span class="toc-text">获取远程分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并分支-FETCH-HEAD"><span class="toc-number">18.</span> <span class="toc-text">合并分支 FETCH_HEAD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拉取远程仓库"><span class="toc-number">19.</span> <span class="toc-text">拉取远程仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆一个仓库"><span class="toc-number">20.</span> <span class="toc-text">克隆一个仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推送本地分支到远程仓库"><span class="toc-number">21.</span> <span class="toc-text">推送本地分支到远程仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆一个裸库"><span class="toc-number">22.</span> <span class="toc-text">克隆一个裸库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推送分支到裸库"><span class="toc-number">23.</span> <span class="toc-text">推送分支到裸库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">24.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/04/29/Bilibili-直播挂机脚本/" title="上一篇: Bilibili 直播挂机脚本">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/04/19/利用GitLab搭建私有代码库/" title="下一篇: 利用GitLab搭建私有代码库">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/06/02/群晖安装-qBittorrent-套件/">群晖安装 qBittorrent 套件</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/SnapRAID/">（转载）目录级别的冗余存储：SnapRAID</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/mergerfs/">（转载）mergerfs 合并多块硬盘的剩余空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/11/Docker/">Docker 个人镜像资源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/24/build/">静态交叉编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/11/DSM-00/">DS3617xs 个人插件资源集合帖，持续更新中</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/17/WDMyCloud-09/">WDMyCloud 个人插件资源集合帖，已完结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/13/Gogs使用教程/">Gogs使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/12/h5ai使用教程/">h5ai使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/04/Linux下压制视频/">Linux下压制视频（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/20/BBR魔改版安装教程/">BBR魔改版安装教程（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/VPS性能优化/">VPS性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-08/">WDMyCloud Gen2 安装群晖教程，慎入！！！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-07/">WDMC 多机型支持 PlexMediaServer 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-06/">WDMC 增加机型支持 WordPress插件，个人博客安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-05/">WDMC 增加机型支持 Transmission插件，PT下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-04/">WDMC 增加机型支持 Minidlna插件，视频共享中心</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-03/">WDMC 增加机型支持 Aria2插件，文件下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-02/">WDMC 增加机型支持 安装迅雷插件(已失效)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-01/">WD Gen2应用解锁，安装三方应用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud/">WDMyCloud Gen2(及armv7 CPU机型)教程指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/GPG-入门教程/">【转载】GPG 入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/Bilibili-直播挂机脚本/">Bilibili 直播挂机脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/转载-深入浅出-Git/">[转载]深入浅出 Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/19/利用GitLab搭建私有代码库/">利用GitLab搭建私有代码库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/LEDE编译教程/">LEDE编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/">SSR-Panel V3 Mod 搭建教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/通往天国的梯子/">通往天国的梯子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/02/WDMyCloud插件开源/">WDMyCloud插件开源</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/钢铁雄心IV控制台命令/">钢铁雄心IV控制台命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/WDMyCloud安装DSM固件操作说明/">WDMyCloud安装DSM固件操作说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/WDMyCloud三方固件说明/">WDMyCloud三方固件说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Hexo的配置文件解析/">Hexo的配置文件解析</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2020 Auska
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">驾驶员到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

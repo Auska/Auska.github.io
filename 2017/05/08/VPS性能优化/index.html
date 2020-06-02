@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>VPS性能优化 | Auska_Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言主要用提高VPS的链接性能，和数据吞吐性能。">
+<meta name="keywords" content="VPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPS性能优化">
+<meta property="og:url" content="http://auska.github.io/2017/05/08/VPS性能优化/index.html">
+<meta property="og:site_name" content="Auska_Blog">
+<meta property="og:description" content="前言主要用提高VPS的链接性能，和数据吞吐性能。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xj8t4.com1.z0.glb.clouddn.com/ss-jc36-01.png">
+<meta property="og:updated_time" content="2020-06-02T03:16:59.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VPS性能优化">
+<meta name="twitter:description" content="前言主要用提高VPS的链接性能，和数据吞吐性能。">
+<meta name="twitter:image" content="http://7xj8t4.com1.z0.glb.clouddn.com/ss-jc36-01.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Auska_Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Auska</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客随便写写。</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档导航</a></li>
+                        
+                            <li><a href="/tags">分类阅读</a></li>
+                        
+                            <li><a href="/about">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bilibili/" style="font-size: 10px;">Bilibili</a> <a href="/tags/Cross/" style="font-size: 10px;">Cross</a> <a href="/tags/DSM/" style="font-size: 12px;">DSM</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Gogs/" style="font-size: 10px;">Gogs</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/LEDE/" style="font-size: 10px;">LEDE</a> <a href="/tags/NAS/" style="font-size: 20px;">NAS</a> <a href="/tags/SS/" style="font-size: 10px;">SS</a> <a href="/tags/SSR/" style="font-size: 10px;">SSR</a> <a href="/tags/VPS/" style="font-size: 14px;">VPS</a> <a href="/tags/WDMyCloud/" style="font-size: 16px;">WDMyCloud</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/gitlab/" style="font-size: 10px;">gitlab</a> <a href="/tags/h5ai/" style="font-size: 10px;">h5ai</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/压制/" style="font-size: 10px;">压制</a> <a href="/tags/挂机/" style="font-size: 10px;">挂机</a> <a href="/tags/教程/" style="font-size: 18px;">教程</a> <a href="/tags/梯子/" style="font-size: 10px;">梯子</a> <a href="/tags/游戏/" style="font-size: 10px;">游戏</a> <a href="/tags/编译/" style="font-size: 12px;">编译</a> <a href="/tags/解密/" style="font-size: 10px;">解密</a> <a href="/tags/资源/" style="font-size: 12px;">资源</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">luuman</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">这个人比较懒，什么也没留下。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Auska</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Auska</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客随便写写。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档导航</a></li>
+                
+                    <li><a href="/tags">分类阅读</a></li>
+                
+                    <li><a href="/about">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-VPS性能优化" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/08/VPS性能优化/" class="article-date">
+      <time datetime="2017-05-08T07:37:17.000Z" itemprop="datePublished">2017-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      VPS性能优化
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>主要用提高VPS的链接性能，和数据吞吐性能。</p>
+<a id="more"></a>
+<hr>
+<h1 id="参数优化"><a href="#参数优化" class="headerlink" title="参数优化"></a>参数优化</h1><h2 id="TCP、内核参数"><a href="#TCP、内核参数" class="headerlink" title="TCP、内核参数"></a>TCP、内核参数</h2><p>适用场景：高延迟搞丢包线路。<br>使用TCP-BBR可以略过此部分(已包含)。</p>
+<h3 id="增加TCP连接数量"><a href="#增加TCP连接数量" class="headerlink" title="增加TCP连接数量"></a>增加TCP连接数量</h3><p>编辑<code>/etc/security/limits.conf</code>在末尾添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* soft nproc 65535</span><br><span class="line">* hard nproc 65535</span><br><span class="line">* soft nofile 65535</span><br><span class="line">* hard nofile 65535</span><br></pre></td></tr></table></figure></p>
+<h3 id="设置ulimit"><a href="#设置ulimit" class="headerlink" title="设置ulimit"></a>设置ulimit</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -n 65535</span><br></pre></td></tr></table></figure>
+<h3 id="修改内核参数适合的还是hybla（适合高延迟高丢包率环境）"><a href="#修改内核参数适合的还是hybla（适合高延迟高丢包率环境）" class="headerlink" title="修改内核参数适合的还是hybla（适合高延迟高丢包率环境）"></a>修改内核参数适合的还是hybla（适合高延迟高丢包率环境）</h3><p>编辑<code>/etc/sysctl.conf</code>在末尾添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#TCP配置优化</span><br><span class="line">fs.file-max = 65535</span><br><span class="line">#提高整个系统的文件限制</span><br><span class="line">net.core.rmem_max = 67108864</span><br><span class="line">net.core.wmem_max = 67108864</span><br><span class="line">net.core.netdev_max_backlog = 250000</span><br><span class="line">net.core.somaxconn = 4096</span><br><span class="line"></span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line">net.ipv4.tcp_tw_recycle = 0</span><br><span class="line">net.ipv4.tcp_fin_timeout = 30</span><br><span class="line">net.ipv4.tcp_keepalive_time = 1200</span><br><span class="line">net.ipv4.ip_local_port_range = 10000 65000</span><br><span class="line">net.ipv4.tcp_max_syn_backlog = 8192</span><br><span class="line">net.ipv4.tcp_max_tw_buckets = 5000</span><br><span class="line">net.ipv4.tcp_fastopen = 3</span><br><span class="line">net.ipv4.tcp_mem = 25600 51200 102400</span><br><span class="line">net.ipv4.tcp_rmem = 4096 87380 67108864</span><br><span class="line">net.ipv4.tcp_wmem = 4096 65536 67108864</span><br><span class="line">net.ipv4.tcp_mtu_probing = 1</span><br><span class="line">net.ipv4.tcp_congestion_control = hybla</span><br></pre></td></tr></table></figure></p>
+<p>保存后，输入<code>sysctl -p</code>使配置生效。</p>
+<hr>
+<h1 id="软件优化"><a href="#软件优化" class="headerlink" title="软件优化"></a>软件优化</h1><h2 id="锐速"><a href="#锐速" class="headerlink" title="锐速"></a>锐速</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>锐速（ServerSpeeder）加速软件是一种基于ZETATCP加速引擎的软件，只需单边部署就可以起到 显著加速效果的 TCP 加速技术。<br>单边加速，无需添加本地服务，但对linux内核有要求。（OVZ虚拟化不支持！）</p>
+<p>锐速目前已经基本停止运营，而且母公司LotServer面向企业用户还在运营<br>以下提供的破解版安装方式，收集自网络。仅供个人实验使用，请支持正版。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>锐速 (lotServer) 一键安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O appex.sh https://raw.githubusercontent.com/0oVicero0/serverSpeeser_Install/master/appex.sh &amp;&amp; chmod +x appex.sh &amp;&amp; bash appex.sh install</span><br></pre></td></tr></table></figure></p>
+<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O appex.sh https://raw.githubusercontent.com/0oVicero0/serverSpeeser_Install/master/appex.sh &amp;&amp; chmod +x appex.sh &amp;&amp; bash appex.sh uninstall</span><br></pre></td></tr></table></figure>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ul>
+<li>启动命令 <code>/appex/bin/lotServer.sh start</code></li>
+<li>状态查询 <code>/appex/bin/lotServer.sh status</code></li>
+<li>停止加速 <code>/appex/bin/lotServer.sh stop</code><h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3>下面提到的 有效数据率指的是，当你的VPS从上行向你发送了100MB大小的文件，你也正常接收到了完整的100MB大小的文件，但是实际流量消耗高于 100MB，假设服务器这次传输上行总共消耗了 120MB流量，那么 100/12=0.83*100=83% ，结果是 83%的有效数据率。</li>
+</ul>
+<p>在丢包和开启了最大传输模式的时候，会降低有效数据率（但是最大传输模式会增加加速效果）。</p>
+<h4 id="加速接口"><a href="#加速接口" class="headerlink" title="加速接口"></a>加速接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accif=&quot;eth*&quot;</span><br></pre></td></tr></table></figure>
+<p><code>eth*</code> 一般为服务器上对外提供服务的网络接口，例如 <code>eth0</code>, <code>eth1</code>, … 一般通过 <code>ifconfig</code> 命令可以看到；</p>
+<p>可以同时设定多个接口作为加速接口(接口之间用空格分开)，如 <code>accif=&quot;eth0 eth1&quot;</code>；默认为”<code>eth0</code>″。</p>
+<h4 id="TCP-加速开关"><a href="#TCP-加速开关" class="headerlink" title="TCP 加速开关"></a>TCP 加速开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acc=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启 <code>TCP</code> 加速功能；设为 <code>0</code> 表示关闭 <code>TCP</code> 加速功能；默认为 <code>1</code> 。</p>
+<h4 id="高级加速开关"><a href="#高级加速开关" class="headerlink" title="高级加速开关"></a>高级加速开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">advacc=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能可以得到更好的加速效果，但有可能会造成有效数据率下降；默认为 <code>1</code> 。</p>
+<h4 id="高级入向加速开关"><a href="#高级入向加速开关" class="headerlink" title="高级入向加速开关"></a>高级入向加速开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">advinacc=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能可以得到更好的流入方向流量加速效果，也就是相对服务器来说的 下行宽带（服务器的入向，就是进来的流量，即下行宽带）。</p>
+<h4 id="加速接口-上行带宽"><a href="#加速接口-上行带宽" class="headerlink" title="加速接口 上行带宽"></a>加速接口 上行带宽</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wankbps=&quot;1000000&quot;</span><br></pre></td></tr></table></figure>
+<p>指的是从服务器流出到 <code>Internet</code> 的最大带宽，单位为 <code>Kbps</code>，例如服务器所连接的 <code>Internet</code> 带宽为 <code>1G</code>，则设置为 <code>1000000</code>；默认为 <code>1000000</code>。</p>
+<h4 id="加速接口-下行带宽"><a href="#加速接口-下行带宽" class="headerlink" title="加速接口 下行带宽"></a>加速接口 下行带宽</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">waninkbps=&quot;1000000&quot;</span><br></pre></td></tr></table></figure>
+<p>指的是从 <code>Internet</code> 流入服务器的最大带宽，单位为 <code>Kbps</code>，例如服务器所连接的 <code>Internet</code> 带宽为 <code>1G</code>，则设置为 <code>1000000</code>；默认为 <code>1000000</code>；</p>
+<p><code>wankbps</code> 和 <code>waninkbps</code> 的设置一般与实际带宽相同为最理想；如果无法确定实际带宽，一般设置为网卡的最大吞吐能力即可；例如网卡为千兆全双工网卡，则 <code>wankbps</code> 和 <code>waninkbps</code> 都设置为 <code>1000000</code>；</p>
+<p>当设置过小时，例如实际带宽有 <code>100Mbps</code>，但 <code>wankbps</code> 和 <code>waninkbps</code> 设置为 <code>10Mbps</code>，则数据流量会被限制在 <code>10Mbps</code> 以内，此时会降低服务器的吞吐。</p>
+<h4 id="流量整形开关，配合上行和下行带宽设置开启"><a href="#流量整形开关，配合上行和下行带宽设置开启" class="headerlink" title="流量整形开关，配合上行和下行带宽设置开启"></a>流量整形开关，配合上行和下行带宽设置开启</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shaperEnable=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能，会采用 <code>wankbps</code> 以及 <code>waninkbps</code> 设置的带宽大小运行；关闭此功能，会根据实时传输自动测算带宽大小；默认为 <code>1</code> 。</p>
+<h4 id="csvmode-拥塞控制模式开关"><a href="#csvmode-拥塞控制模式开关" class="headerlink" title="csvmode 拥塞控制模式开关"></a>csvmode 拥塞控制模式开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">csvmode=&quot;0&quot; highcsv=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启 <code>tcp</code> 加速后，在某些丢包较大的网络中可能会造成有效数据率下降的问题；此时开启拥塞控制模式，可以有效避免该问题；但开启此选项时，可能加速效果也会下降；默认为 <code>0</code>；</p>
+<p><code>csvmode=&quot;1&quot; highcsv=&quot;0&quot;</code> 时，为普通拥塞控制模式；对拥塞具有一定控制的同时对加速效果的影响较小；</p>
+<p><code>csvmode=&quot;1&quot; highcsv=&quot;1&quot;</code> 时，为高级拥塞控制模式，可以更好的控制拥塞但是相比于普通拥塞控制模式对加速效果的影响较大。</p>
+<h4 id="局域网加速开关"><a href="#局域网加速开关" class="headerlink" title="局域网加速开关"></a>局域网加速开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">subnetAcc=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启；设为 <code>0</code> 表示关闭；</p>
+<p>不开启时对于同一局域网内的连接不会加速；开启后对同一网段的 <code>TCP</code> 连接也进行加速；默认为 <code>0</code> 。</p>
+<h4 id="最大传输模式"><a href="#最大传输模式" class="headerlink" title="最大传输模式"></a>最大传输模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxmode=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启；设为 <code>0</code> 表示关闭；</p>
+<p>开启后会进一步提高加速效果，但是可能会降低有效数据率；默认为 <code>0</code> 。</p>
+<h4 id="最大传输模式生效时间"><a href="#最大传输模式生效时间" class="headerlink" title="最大传输模式生效时间"></a>最大传输模式生效时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxTxEffectiveMS=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>用于控制最大传输模式对每一个连接的生效时间；设为 <code>0</code> 表示从连接建立到连接结束，都采用最大传输模式传输；单位为 <code>ms</code>，<code>1000</code> 即 <code>1s</code> ；默认为 <code>0</code> 。</p>
+<h4 id="抓包功能开关"><a href="#抓包功能开关" class="headerlink" title="抓包功能开关"></a>抓包功能开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pcapEnable=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能后会抓取经过加速引擎处理的数据包，在 <code>/serverspeeder/log</code>(或<code>/appex/log</code>) 目录下生成抓包文件，此功能会造成大量日志文件，如开启请定期清理日志，避免硬盘爆炸；默认为 <code>0</code> 。</p>
+<h4 id="流量-bypass-开关"><a href="#流量-bypass-开关" class="headerlink" title="流量 bypass 开关"></a>流量 bypass 开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bypassOverFlows=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能后当服务器的连接数超过引擎设定后会对超过的连接的流量 <code>bypass</code>，否则会无法新建连接；默认为 <code>1</code> 。</p>
+<h4 id="初始-TCP-发送窗口能够发送的数据包的数量"><a href="#初始-TCP-发送窗口能够发送的数据包的数量" class="headerlink" title="初始 TCP 发送窗口能够发送的数据包的数量"></a>初始 TCP 发送窗口能够发送的数据包的数量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initialCwndWan=&quot;44&quot;</span><br></pre></td></tr></table></figure>
+<p>该值合理设置会获得更好的加速效果，如果设置相对实际需求偏高，但是可能会造成网络的拥塞；</p>
+<p>根据延迟来设定是最好的，假设你与这个<code>VPS</code>延迟(回程延迟)为 <code>110ms</code>，那么除以 <code>2.5</code>，即可得到 <code>44</code>。</p>
+<h4 id="从-LAN-到-WAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限"><a href="#从-LAN-到-WAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限" class="headerlink" title="从 LAN 到 WAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限"></a>从 LAN 到 WAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">l2wQLimit=&quot;256 2048&quot;</span><br></pre></td></tr></table></figure>
+<p>该值设置的高会获得更好的加速效果，但是会消耗更多的内存；</p>
+<p><code>256</code>代表<code>256MB</code>内存，<code>2048</code>代表<code>256MB</code>内存<code>*8</code> 。</p>
+<h4 id="从-WAN-到-LAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；"><a href="#从-WAN-到-LAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；" class="headerlink" title="从 WAN 到 LAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；"></a>从 WAN 到 LAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w2lQLimit=&quot;256 2048&quot;</span><br></pre></td></tr></table></figure>
+<p>该值设置的高会获得更好的加速效果，但是会消耗更多的内存。</p>
+<p><code>256</code>代表<code>256MB</code>内存，<code>2048</code>代表<code>256MB</code>内存<code>*8</code> 。一般 <code>l2wQLimit</code> 和 <code>w2lQLimit</code> 设置一样即可。</p>
+<h4 id="slab-缓存缩减开关"><a href="#slab-缓存缩减开关" class="headerlink" title="slab 缓存缩减开关"></a>slab 缓存缩减开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shrinkPacket=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>当服务器内存消耗很高时可以将该值设定为 <code>1</code>，这样会降低内存的消耗，对低内存的<code>VPS</code>效果不错；默认为 <code>0</code> 。</p>
+<h4 id="重传等待时间"><a href="#重传等待时间" class="headerlink" title="重传等待时间"></a>重传等待时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">retranWaitListMS=&quot;32&quot;</span><br></pre></td></tr></table></figure>
+<p>当服务器没有收到 <code>ack</code> 或者丢包产生之后客户端重复 <code>ack</code> 时间达 到 <code>32ms</code>，服务器重传数据；默认为 <code>32ms</code>。</p>
+<h4 id="网络拥塞判断"><a href="#网络拥塞判断" class="headerlink" title="网络拥塞判断"></a>网络拥塞判断</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">halfCwndMinSRtt=&quot;500&quot;</span><br><span class="line">halfCwndLossRateShift=&quot;3&quot;</span><br></pre></td></tr></table></figure>
+<p>两个值分别为延时和丢包率，丢包率默认值为 <code>3</code>，即 <code>1/2^3</code>。</p>
+<p>当拥塞产生时，退出第三代 <code>Learning-based TCP</code> 算法，采用类似传统 <code>TCP</code> 的 算法。</p>
+<h4 id="双边缓存设置"><a href="#双边缓存设置" class="headerlink" title="双边缓存设置"></a>双边缓存设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#byte cache</span><br><span class="line">byteCache=&quot;0&quot;</span><br><span class="line">httpComp=&quot;1&quot;</span><br><span class="line">byteCacheMemory=&quot;250&quot; #MB</span><br><span class="line">byteCacheDisk=&quot;0&quot; #MB</span><br><span class="line">diskDev=&quot;/dev/sda2&quot;</span><br></pre></td></tr></table></figure>
+<p>当前只有部分版本支持该功能；</p>
+<p>分别是缓存开关，数据压缩开关，内存大小，硬盘大小，指定硬盘位置。</p>
+<h4 id="仅处理TCP流量"><a href="#仅处理TCP流量" class="headerlink" title="仅处理TCP流量"></a>仅处理TCP流量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpOnly=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>开启此功能，即只处理 <code>TCP</code> 流量；关闭此功能，即一起处理除 <code>TCP</code> 以外的流量（不会对非 <code>TCP</code> 流量加速），一般用于配置策略对非 <code>TCP</code> 数据丢弃时；默认为 <code>1</code> 。</p>
+<h4 id="引擎允许的最大突发时间"><a href="#引擎允许的最大突发时间" class="headerlink" title="引擎允许的最大突发时间"></a>引擎允许的最大突发时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SmBurstMS=&quot;15&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>0</code>，则代表关闭；该值越大，数据包发送量越大；当前推荐默认为 <code>15</code> 。</p>
+<h4 id="网卡接收端合并开关"><a href="#网卡接收端合并开关" class="headerlink" title="网卡接收端合并开关"></a>网卡接收端合并开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsc=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>在有些较新的网卡驱动中，带有 RSC 算法的，需要打开该功能；默认为 <code>0</code> 。</p>
+<h4 id="gso-开关"><a href="#gso-开关" class="headerlink" title="gso 开关"></a><code>gso</code> 开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gso=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>设为 <code>1</code> 表示开启，设为 <code>0</code> 表示关闭；</p>
+<p>当网卡需要开启 <code>gso</code> 功能时，开启此功能，锐速 变为支持 <code>gso</code> 的模式；关闭此功能，如果网卡开启 <code>gso</code>，锐速 会关闭网卡的 <code>gso</code> 功能；默认为 <code>0</code> 。</p>
+<h4 id="lanSegment-开关"><a href="#lanSegment-开关" class="headerlink" title="lanSegment 开关"></a>lanSegment 开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ment=&quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>当 锐速 不是 TCP 连接的最终节点并且采用单臂模式部署时，如果 锐速 和服务器之间网络环境很好，不需要加速，将此参数的值设为 Lan 一侧的子网网段 (参数的值为子网网段的十六进制表示加子网掩码，例：<code>ip 为 172.33.0.0/16，lanSegment=”AC210000/16″)</code>，则 锐速 和服务器之间不进行加速，可以节省 <code>serverSpeeder</code> 使用的资源并获得更好的加速效果。</p>
+<p>如果不设置此参数，则 锐速 会对所有经过的 TCP 连接进行加速。（注：如果参数转换为十六进制后，第一位数字为 <code>0</code> 时，需要省略，不然无法正常写入配置。例如，参数十六进制值为：<code>0C210000/16</code>，那么 <code>lanSegment=”C210000/16″</code>。</p>
+<h4 id="启动锐速时-写入配置所需时间"><a href="#启动锐速时-写入配置所需时间" class="headerlink" title="启动锐速时 写入配置所需时间"></a>启动锐速时 写入配置所需时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configTimeout=&quot;30&quot;</span><br></pre></td></tr></table></figure>
+<p>当引擎的数目很多时需要写入配置的时间较长，默认为 <code>30s</code> 。</p>
+<h4 id="锐速-启动的加速引擎-对应CPU核心-的的个数"><a href="#锐速-启动的加速引擎-对应CPU核心-的的个数" class="headerlink" title="锐速 启动的加速引擎(对应CPU核心)的的个数"></a>锐速 启动的加速引擎(对应CPU核心)的的个数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">engineNum=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+<p>在多处理器（核）的系统环境下，启用多个加速引擎可以使网络流量的负载在多个处理器（核）之间做均衡分配，从而帮助优化系统 <code>CPU</code> 资源的利用；</p>
+<p>启用多个加速引擎时，引擎序号从 <code>0</code> 开始，分别为 <code>engine0</code>，<code>engine1</code>，<code>engine2</code>，等等；每个引擎的负载对应交给相同序号的处理器来处理，即 <code>engine0</code> 使用 <code>cpu0</code>，<code>engine1</code> 使用 <code>cpu1</code> 等；<code>engineNum</code> 默认为 <code>0</code>，表示启用的加速引擎个数与系统的处理器个数相同，<code>64bit</code> 架构下，当实际的 <code>engineNum</code> 参数大于 <code>4</code> 时，检查内存：</p>
+<p>当总内存减去 <code>engine</code> 占用内存剩余数小于 <code>2G</code> 时，提示用户一个 <code>warning</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LotServer Warning: $CPUNUM engines will be launched according to the config file. Your system&apos;s total RAM is $memTotal(KB), which might be insufficient to run all the engines without performance penalty under extreme network conditions.</span><br></pre></td></tr></table></figure></p>
+<h4 id="白名单开关"><a href="#白名单开关" class="headerlink" title="白名单开关"></a>白名单开关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shortRttMS=&quot;10&quot;</span><br></pre></td></tr></table></figure>
+<p>打开后 锐速 将不对 <code>RTT</code> 小于 <code>shortRttMS</code> 的连接加速，节约系统资源，提高性能；</p>
+<p>设置为 <code>0</code> 时表示关闭此功能，锐速 会加速所有的连接；设置为其他值时，例如 <code>10</code>，则表示当第一次建立连接时，锐速 会测量所有的新建连接的 RTT，但是不对其进行加速；如果 <code>RTT</code> 大于 <code>10ms</code>，锐速 会从第二次建立连接开始对其加速，如果 <code>RTT</code> 小于 <code>10ms</code>，锐速 则一直不会对其加速。默认值 <code>10ms</code>.</p>
+<p>重启 锐速 后，原来记录的每个连接的 <code>RTT</code> 会被清除，重新开始记录。</p>
+<p>锐速 使用五元组判断是否为同一连接，五元组包括：源 <code>IP</code>, 目的 <code>IP</code>, 源端口，目的端口和协议。</p>
+<h4 id="锐速-模块文件的路径"><a href="#锐速-模块文件的路径" class="headerlink" title="锐速 模块文件的路径"></a>锐速 模块文件的路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apxexe=&quot;/appex/bin/acce-***&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="锐速-授权文件的路径"><a href="#锐速-授权文件的路径" class="headerlink" title="锐速 授权文件的路径"></a>锐速 授权文件的路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apxlic=“/appex/etc/apx-***.lic”</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Kcptun"><a href="#Kcptun" class="headerlink" title="Kcptun"></a>Kcptun</h2><h3 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h3><p>Kcptun 是一个非常简单和快速的，基于 KCP 协议的 UDP 隧道，它可以将 TCP 流转换为 KCP+UDP 流。而 KCP 是一个快速可靠协议，能以比 TCP 浪费10%-20%的带宽的代价，换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。</p>
+<p>Kcptun 是 KCP 协议的一个简单应用，可以用于任意 TCP 网络程序的传输承载，以提高网络流畅度，降低掉线情况。由于 Kcptun 使用 Go 语言编写，内存占用低（经测试，在64M内存服务器上稳定运行），而且适用于所有平台，甚至 Arm 平台。</p>
+<h3 id="工作示意图"><a href="#工作示意图" class="headerlink" title="工作示意图"></a>工作示意图</h3><p><img src="http://7xj8t4.com1.z0.glb.clouddn.com/ss-jc36-01.png" alt="工作示意图"></p>
+<h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a href="https://github.com/skywind3000/kcp" target="_blank" rel="noopener">KCP 协议</a><br><a href="https://github.com/xtaci/kcptun" target="_blank" rel="noopener">Kcptun 项目地址</a></p>
+<h3 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h3><h4 id="脚本安装"><a href="#脚本安装" class="headerlink" title="脚本安装"></a>脚本安装</h4><p>Kcptun 服务端一键<a href="https://blog.kuoruan.com/110.html" target="_blank" rel="noopener">安装脚本</a>,喜闻乐见的多用户支持</p>
+<h4 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h4><p>本教程使用的是 Debian 64x 系统。</p>
+<p>下载KCPTun，并解压：</p>
+<p>注意：KCPTun文件最新文件的下载地址看这里：<a href="https://github.com/xtaci/kcptun/releases" target="_blank" rel="noopener">Github-kcptun-releases</a>。</p>
+<p>注意：KCPTun不分系统版本，只分主系统和位数，比如 <code>64x</code> 就选择 <code>kcptun-linux-amd64-XXX.tar.gz</code> ，<code>32x</code> 就选择 <code>kcptun-linux-386-XXX.tar.gz</code>，Centos/Debian/Ubuntu都一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/</span><br><span class="line"># 新建一个文件夹</span><br><span class="line">cd /root/kcptun</span><br><span class="line"># 进入刚才新建的文件夹</span><br><span class="line">wget https://github.com/xtaci/kcptun/releases/download/v20160725/kcptun-linux-amd64-20160725.tar.gz</span><br><span class="line"># 下载最新的 kcptun-linux-amd64 文件</span><br><span class="line">tar –zxf kcptun–linux–amd64-*.tar.gz</span><br><span class="line"># 解压刚才下载的文件</span><br></pre></td></tr></table></figure></p>
+<p>解压之后会发现只有两个文件： <code>client_linux_amd64</code> 和 <code>server_linux_amd64</code>，第一个是是客户端文件（linux的客户端），第二个是服务端文件。</p>
+<p>目前KCPTun没有配置文件，也没有任何启动脚本，所以需要新建一些脚本。</p>
+<p>创建 start.sh：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /root/kcptun/start.sh</span><br></pre></td></tr></table></figure></p>
+<p>写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">cd /root/kcptun/</span><br><span class="line"></span><br><span class="line">./server_linux_amd64 -l :2333 -t 127.0.0.1:8388 -key test -mtu 1400 -sndwnd 2048 -rcvwnd 2048 -mode fast2 &gt; kcptun.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p><code>server_linux_amd64</code> 对应服务端文件名，请对应修改。</p>
+<p><code>-l</code> 表示 Kcptun 的服务端监听端口，用于接收外部请求和发送数据，默认 2333；</p>
+<p><code>-t</code> 表示要加速的地址，由于 Kcptun 和 Shadowsocks 在同一服务器，地址填写 127.0.0.1，而 8388 为 Shadowsocks 服务端监听端口；</p>
+<p><code>-key</code> 是 Kcptun 的验证密钥，服务端和本地必须一致才能通过验证，请自行设置（可省略）；</p>
+<p><code>-mode</code> 为加速模式，默认 fast，推荐使用 fast2。</p>
+<p>其他参数可以参考项目主页的介绍。</p>
+<p>下面是引用官方介绍：</p>
+<p>响应速度：<code>fast3 &gt; [fast2] &gt; fast &gt; normal &gt; default</code><br>有效载荷比：<code>default &gt; normal &gt; fast &gt; [fast2] &gt; fast3</code><br>中间 mode 参数比较均衡，总之就是越快越浪费带宽，推荐模式 fast2。</p>
+<p>其他参数，请使用 <code>./server_linux_amd64 -h</code> 查看，更深层次的参数调整需要理解 KCP 协议，并通过“隐藏参数”调整。</p>
+<p>作者推荐配置参数：</p>
+<p>适用大部分ADSL接入（非对称上下行）的参数（实验环境电信100M ADSL）。<br>其它带宽请按比例调整，比如 50M ADSL，把 CLIENT 的 <code>–sndwnd</code> <code>–rcvwnd</code> 减掉一半，SERVER 不变。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SERVER:   –mtu 1400 –sndwnd 2048 –rcvwnd 2048 –mode fast2</span><br><span class="line">CLIENT:   –mtu 1400 –sndwnd 256 –rcvwnd 2048 –mode fast2 –dscp 46</span><br></pre></td></tr></table></figure></p>
+<p>创建 stop.sh：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /root/kcptun/stop.sh</span><br></pre></td></tr></table></figure></p>
+<p>写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">PID=`ps -ef | grep server_linux_amd64 | grep -v grep | awk &apos;&#123;print $2&#125;&apos;`</span><br><span class="line"></span><br><span class="line">if [[ &quot;&quot; !=  &quot;$PID&quot; ]]; then</span><br><span class="line"></span><br><span class="line">echo &quot;killing $PID&quot;</span><br><span class="line"></span><br><span class="line">kill -9 $PID</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>创建 restart.sh：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /root/kcptun/restart.sh</span><br></pre></td></tr></table></figure>
+<p>写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">cd /root/kcptun/</span><br><span class="line"></span><br><span class="line">echo &quot;Stopping Kcptun...&quot;</span><br><span class="line"></span><br><span class="line">sh stop.sh</span><br><span class="line"></span><br><span class="line">sh start.sh</span><br><span class="line"></span><br><span class="line">echo &quot;Kcptun started.&quot;</span><br></pre></td></tr></table></figure>
+<p>给上面创建的脚本添加执行权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /root/kcptun/*.sh</span><br></pre></td></tr></table></figure></p>
+<p>启动服务端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh /root/kcptun/start.sh</span><br></pre></td></tr></table></figure></p>
+<p>日志文件在：<code>/root/kcptun/kcptun.log</code></p>
+<p>监听日志信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /root/kcptun/kcptun.log</span><br></pre></td></tr></table></figure></p>
+<p>停止服务端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh /root/kcptun/stop.sh</span><br></pre></td></tr></table></figure></p>
+<p>重启服务端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh /root/kcptun/restart.sh</span><br></pre></td></tr></table></figure></p>
+<p>添加开机启动：</p>
+<p>Centos系统：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/rc.d/rc.local &amp;&amp; echo &quot;sh /root/kcptun/start.sh&quot; &gt;&gt; /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>Ubuntu/Debian系统：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/rc.local &amp;&amp; echo &quot;sh /root/kcptun/start.sh&quot; &gt;&gt; /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>故障排除</p>
+<p>客户端和服务器端皆无 <strong>stream opened</strong>信息。<br>连接客户端程序的端口设置错误。</p>
+<p>客户端有 <strong>stream opened</strong>信息，服务器端没有。<br>连接服务器的端口设置错误，或者被防火墙拦截。</p>
+<p>客户端服务器皆有 <strong>stream opened</strong>信息，但无法通信。<br>上层软件的设定错误。</p>
+<p>注意：日志信息在你的客户端或者服务端同目录下的 <strong>kcptun.log</strong> 中。<br>注意事项<br>KcpTun有个缺点，就是实际流量消耗 最少是 你使用量的两倍！如果参数调整有问题，可能会浪费十几倍的流量，而加速幅度也并不会上升多少。</p>
+<p>作者的解释：</p>
+<p>出现这个情况有几种可能：<br>ISP 对UDP丢包极高，例如50%<br>服务器，客户端本身的带宽较低，可以适当调低<code>sndwnd /rcvwnd</code><br>可以尝试 <code>-dscp 46</code>参数降低丢包率。<br>希望你们注意一下这个问题，可能搞不好就被 IDC 以滥用网络的名义给封VPS了。</p>
+<hr>
+<h2 id="TCP-BBR"><a href="#TCP-BBR" class="headerlink" title="TCP-BBR"></a>TCP-BBR</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>这是2016年9月份才开源的一个优化网络拥堵的算法。</p>
+<p>目前最新版本的Linux内核（4.9-rc8）中已经集成了该算法。</p>
+<p>据很多人反馈，速度比锐速还厉害！！</p>
+<p>毕竟是新鲜的东西，难免有BUG，酌情使用。</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><h4 id="包管理安装"><a href="#包管理安装" class="headerlink" title="包管理安装"></a>包管理安装</h4><ul>
+<li>Debian8/Ubuntu14</li>
+</ul>
+<p>下载最新内核,最新内核查看<a href="http://kernel.ubuntu.com/~kernel-ppa/mainline" target="_blank" rel="noopener">这里</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#下载内核</span><br><span class="line">wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.9-rc8/linux-image-4.9.0-040900rc8-generic_4.9.0-040900rc8.201612051443_amd64.deb</span><br><span class="line"></span><br><span class="line">#安装内核</span><br><span class="line">dpkg -i linux-image-4.9.0*.deb</span><br><span class="line"></span><br><span class="line">#删除其余内核</span><br><span class="line">dpkg -l|grep linux-image </span><br><span class="line">sudo apt-get remove linux-image-[Tab补全] #删旧内核，在这里，就是把第一个3.13的删掉</span><br><span class="line"></span><br><span class="line">#更新 grub 系统引导文件并重启</span><br><span class="line">update-grub</span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line">#开启bbr</span><br><span class="line">echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf</span><br><span class="line">echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>保存生效 <code>sysctl -p</code><br>执行 <code>sysctl net.ipv4.tcp_available_congestion_control</code><br>如果结果中有<strong>bbr</strong>, 则证明你的内核已开启<strong>bbr</strong><br>执行<code>lsmod | grep bbr</code>, 看到有 <strong>tcp_bbr</strong> 模块即说明<strong>bbr</strong>已启动。</p>
+<h4 id="一键安装"><a href="#一键安装" class="headerlink" title="一键安装"></a>一键安装</h4><p>本脚本为秋水逸冰的一键安装。</p>
+<p>系统支持：CentOS 6+，Debian 7+，Ubuntu 12+<br>虚拟技术：OpenVZ 以外的（KVM、Xen、VMware等）<br>内存要求：≥128M<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line">chmod +x bbr.sh</span><br><span class="line">./bbr.sh</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，脚本会提示需要重启 <strong>VPS</strong>，输入 <code>y</code> 并回车后重启。<br>重启完成后，进入 <strong>VPS</strong>，验证一下是否成功安装最新内核并开启 <strong>TCP BBR</strong>，输入以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br><span class="line">#查看内核版本，含有 4.9 就表示 OK 了</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line">#返回值一般为：</span><br><span class="line">#net.ipv4.tcp_available_congestion_control = bbr cubic reno</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_congestion_control</span><br><span class="line">#返回值一般为：</span><br><span class="line">#net.ipv4.tcp_congestion_control = bbr</span><br><span class="line"></span><br><span class="line">sysctl net.core.default_qdisc</span><br><span class="line">#返回值一般为：</span><br><span class="line">$net.core.default_qdisc = fq</span><br><span class="line"></span><br><span class="line">lsmod | grep bbr</span><br><span class="line">#返回值有 tcp_bbr 模块即说明bbr已启动。</span><br></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://jasper-1024.github.io/2016/06/27/VPS%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E6%95%99%E7%A8%8B%E7%B3%BB%E5%88%972/" target="_blank" rel="noopener">科学上网教程（二）——VPS优化加速</a><br><a href="https://blog.kuoruan.com/110.html" target="_blank" rel="noopener">Kcptun 服务端一键安装脚本，支持输出新版手机端参数</a><br><a href="https://blog.kuoruan.com/102.html" target="_blank" rel="noopener">小内存福音，Kcptun Shadowsocks加速方案</a><br><a href="http://51.ruyo.net/p/2783.html" target="_blank" rel="noopener">Google BBR 优化算法，实现TCP加速</a><br><a href="http://51.ruyo.net/p/1835.html" target="_blank" rel="noopener">Shadowsocks另一种双边加速软件 – KCPTun（服务端配置教程）</a></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()" title="关闭">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/08/VPS性能优化/">VPS性能优化</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Auska 的个人博客">Auska</a></p>
+        <p><span>发布时间:</span>2017年05月08日 - 15时37分</p>
+        <p><span>最后更新:</span>2020年06月02日 - 11时16分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/08/VPS性能优化/" title="VPS性能优化">http://auska.github.io/2017/05/08/VPS性能优化/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://auska.github.io/2017/05/08/VPS性能优化/　　作者: Auska" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/07/20/BBR魔改版安装教程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          BBR魔改版安装教程（转载）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/01/WDMyCloud-08/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">WDMyCloud Gen2 安装群晖教程，慎入！！！</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数优化"><span class="toc-number">2.</span> <span class="toc-text">参数优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP、内核参数"><span class="toc-number">2.1.</span> <span class="toc-text">TCP、内核参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加TCP连接数量"><span class="toc-number">2.1.1.</span> <span class="toc-text">增加TCP连接数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置ulimit"><span class="toc-number">2.1.2.</span> <span class="toc-text">设置ulimit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改内核参数适合的还是hybla（适合高延迟高丢包率环境）"><span class="toc-number">2.1.3.</span> <span class="toc-text">修改内核参数适合的还是hybla（适合高延迟高丢包率环境）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件优化"><span class="toc-number">3.</span> <span class="toc-text">软件优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#锐速"><span class="toc-number">3.1.</span> <span class="toc-text">锐速</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">3.1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">3.1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载"><span class="toc-number">3.1.3.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">3.1.4.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数说明"><span class="toc-number">3.1.5.</span> <span class="toc-text">参数说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#加速接口"><span class="toc-number">3.1.5.1.</span> <span class="toc-text">加速接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-加速开关"><span class="toc-number">3.1.5.2.</span> <span class="toc-text">TCP 加速开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#高级加速开关"><span class="toc-number">3.1.5.3.</span> <span class="toc-text">高级加速开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#高级入向加速开关"><span class="toc-number">3.1.5.4.</span> <span class="toc-text">高级入向加速开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加速接口-上行带宽"><span class="toc-number">3.1.5.5.</span> <span class="toc-text">加速接口 上行带宽</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加速接口-下行带宽"><span class="toc-number">3.1.5.6.</span> <span class="toc-text">加速接口 下行带宽</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流量整形开关，配合上行和下行带宽设置开启"><span class="toc-number">3.1.5.7.</span> <span class="toc-text">流量整形开关，配合上行和下行带宽设置开启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#csvmode-拥塞控制模式开关"><span class="toc-number">3.1.5.8.</span> <span class="toc-text">csvmode 拥塞控制模式开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#局域网加速开关"><span class="toc-number">3.1.5.9.</span> <span class="toc-text">局域网加速开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最大传输模式"><span class="toc-number">3.1.5.10.</span> <span class="toc-text">最大传输模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最大传输模式生效时间"><span class="toc-number">3.1.5.11.</span> <span class="toc-text">最大传输模式生效时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#抓包功能开关"><span class="toc-number">3.1.5.12.</span> <span class="toc-text">抓包功能开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流量-bypass-开关"><span class="toc-number">3.1.5.13.</span> <span class="toc-text">流量 bypass 开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#初始-TCP-发送窗口能够发送的数据包的数量"><span class="toc-number">3.1.5.14.</span> <span class="toc-text">初始 TCP 发送窗口能够发送的数据包的数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从-LAN-到-WAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限"><span class="toc-number">3.1.5.15.</span> <span class="toc-text">从 LAN 到 WAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从-WAN-到-LAN-加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；"><span class="toc-number">3.1.5.16.</span> <span class="toc-text">从 WAN 到 LAN 加速引擎在缓冲池充满和空闲时分别能够缓存的数据包队列的长度的上限；</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#slab-缓存缩减开关"><span class="toc-number">3.1.5.17.</span> <span class="toc-text">slab 缓存缩减开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重传等待时间"><span class="toc-number">3.1.5.18.</span> <span class="toc-text">重传等待时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络拥塞判断"><span class="toc-number">3.1.5.19.</span> <span class="toc-text">网络拥塞判断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双边缓存设置"><span class="toc-number">3.1.5.20.</span> <span class="toc-text">双边缓存设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#仅处理TCP流量"><span class="toc-number">3.1.5.21.</span> <span class="toc-text">仅处理TCP流量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#引擎允许的最大突发时间"><span class="toc-number">3.1.5.22.</span> <span class="toc-text">引擎允许的最大突发时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网卡接收端合并开关"><span class="toc-number">3.1.5.23.</span> <span class="toc-text">网卡接收端合并开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gso-开关"><span class="toc-number">3.1.5.24.</span> <span class="toc-text">gso 开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lanSegment-开关"><span class="toc-number">3.1.5.25.</span> <span class="toc-text">lanSegment 开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动锐速时-写入配置所需时间"><span class="toc-number">3.1.5.26.</span> <span class="toc-text">启动锐速时 写入配置所需时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锐速-启动的加速引擎-对应CPU核心-的的个数"><span class="toc-number">3.1.5.27.</span> <span class="toc-text">锐速 启动的加速引擎(对应CPU核心)的的个数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#白名单开关"><span class="toc-number">3.1.5.28.</span> <span class="toc-text">白名单开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锐速-模块文件的路径"><span class="toc-number">3.1.5.29.</span> <span class="toc-text">锐速 模块文件的路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锐速-授权文件的路径"><span class="toc-number">3.1.5.30.</span> <span class="toc-text">锐速 授权文件的路径</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kcptun"><span class="toc-number">3.2.</span> <span class="toc-text">Kcptun</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作示意图"><span class="toc-number">3.2.2.</span> <span class="toc-text">工作示意图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目地址"><span class="toc-number">3.2.3.</span> <span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装教程"><span class="toc-number">3.2.4.</span> <span class="toc-text">安装教程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#脚本安装"><span class="toc-number">3.2.4.1.</span> <span class="toc-text">脚本安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动安装"><span class="toc-number">3.2.4.2.</span> <span class="toc-text">手动安装</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-BBR"><span class="toc-number">3.3.</span> <span class="toc-text">TCP-BBR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介-1"><span class="toc-number">3.3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-1"><span class="toc-number">3.3.2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#包管理安装"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">包管理安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一键安装"><span class="toc-number">3.3.2.2.</span> <span class="toc-text">一键安装</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/07/20/BBR魔改版安装教程/" title="上一篇: BBR魔改版安装教程（转载）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/05/01/WDMyCloud-08/" title="下一篇: WDMyCloud Gen2 安装群晖教程，慎入！！！">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/06/02/群晖安装-qBittorrent-套件/">群晖安装 qBittorrent 套件</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/SnapRAID/">（转载）目录级别的冗余存储：SnapRAID</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/mergerfs/">（转载）mergerfs 合并多块硬盘的剩余空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/11/Docker/">Docker 个人镜像资源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/24/build/">静态交叉编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/11/DSM-00/">DS3617xs 个人插件资源集合帖，持续更新中</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/17/WDMyCloud-09/">WDMyCloud 个人插件资源集合帖，已完结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/13/Gogs使用教程/">Gogs使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/12/h5ai使用教程/">h5ai使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/04/Linux下压制视频/">Linux下压制视频（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/20/BBR魔改版安装教程/">BBR魔改版安装教程（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/VPS性能优化/">VPS性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-08/">WDMyCloud Gen2 安装群晖教程，慎入！！！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-07/">WDMC 多机型支持 PlexMediaServer 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-06/">WDMC 增加机型支持 WordPress插件，个人博客安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-05/">WDMC 增加机型支持 Transmission插件，PT下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-04/">WDMC 增加机型支持 Minidlna插件，视频共享中心</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-03/">WDMC 增加机型支持 Aria2插件，文件下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-02/">WDMC 增加机型支持 安装迅雷插件(已失效)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-01/">WD Gen2应用解锁，安装三方应用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud/">WDMyCloud Gen2(及armv7 CPU机型)教程指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/GPG-入门教程/">【转载】GPG 入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/Bilibili-直播挂机脚本/">Bilibili 直播挂机脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/转载-深入浅出-Git/">[转载]深入浅出 Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/19/利用GitLab搭建私有代码库/">利用GitLab搭建私有代码库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/LEDE编译教程/">LEDE编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/">SSR-Panel V3 Mod 搭建教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/通往天国的梯子/">通往天国的梯子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/02/WDMyCloud插件开源/">WDMyCloud插件开源</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/钢铁雄心IV控制台命令/">钢铁雄心IV控制台命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/WDMyCloud安装DSM固件操作说明/">WDMyCloud安装DSM固件操作说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/WDMyCloud三方固件说明/">WDMyCloud三方固件说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Hexo的配置文件解析/">Hexo的配置文件解析</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2020 Auska
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">驾驶员到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

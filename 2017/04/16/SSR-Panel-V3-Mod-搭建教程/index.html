@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>SSR-Panel V3 Mod 搭建教程 | Auska_Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前端使用赵大的魔改版后端也使用赵大的魔改版演示环境 : Azure 1.75 G RAM机子 Ubuntu 16.04 x64">
+<meta name="keywords" content="VPS,SSR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSR-Panel V3 Mod 搭建教程">
+<meta property="og:url" content="http://auska.github.io/2017/04/16/SSR-Panel-V3-Mod-搭建教程/index.html">
+<meta property="og:site_name" content="Auska_Blog">
+<meta property="og:description" content="前端使用赵大的魔改版后端也使用赵大的魔改版演示环境 : Azure 1.75 G RAM机子 Ubuntu 16.04 x64">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-02T03:16:59.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSR-Panel V3 Mod 搭建教程">
+<meta name="twitter:description" content="前端使用赵大的魔改版后端也使用赵大的魔改版演示环境 : Azure 1.75 G RAM机子 Ubuntu 16.04 x64">
+  
+    <link rel="alternative" href="/atom.xml" title="Auska_Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Auska</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客随便写写。</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档导航</a></li>
+                        
+                            <li><a href="/tags">分类阅读</a></li>
+                        
+                            <li><a href="/about">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bilibili/" style="font-size: 10px;">Bilibili</a> <a href="/tags/Cross/" style="font-size: 10px;">Cross</a> <a href="/tags/DSM/" style="font-size: 12px;">DSM</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Gogs/" style="font-size: 10px;">Gogs</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/LEDE/" style="font-size: 10px;">LEDE</a> <a href="/tags/NAS/" style="font-size: 20px;">NAS</a> <a href="/tags/SS/" style="font-size: 10px;">SS</a> <a href="/tags/SSR/" style="font-size: 10px;">SSR</a> <a href="/tags/VPS/" style="font-size: 14px;">VPS</a> <a href="/tags/WDMyCloud/" style="font-size: 16px;">WDMyCloud</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/gitlab/" style="font-size: 10px;">gitlab</a> <a href="/tags/h5ai/" style="font-size: 10px;">h5ai</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/压制/" style="font-size: 10px;">压制</a> <a href="/tags/挂机/" style="font-size: 10px;">挂机</a> <a href="/tags/教程/" style="font-size: 18px;">教程</a> <a href="/tags/梯子/" style="font-size: 10px;">梯子</a> <a href="/tags/游戏/" style="font-size: 10px;">游戏</a> <a href="/tags/编译/" style="font-size: 12px;">编译</a> <a href="/tags/解密/" style="font-size: 10px;">解密</a> <a href="/tags/资源/" style="font-size: 12px;">资源</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">luuman</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">这个人比较懒，什么也没留下。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Auska</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Auska</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客随便写写。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档导航</a></li>
+                
+                    <li><a href="/tags">分类阅读</a></li>
+                
+                    <li><a href="/about">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/auska" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-SSR-Panel-V3-Mod-搭建教程" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/" class="article-date">
+      <time datetime="2017-04-16T08:57:12.000Z" itemprop="datePublished">2017-04-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSR-Panel V3 Mod 搭建教程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSR/">SSR</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>前端使用<a href="https://github.com/esdeathlove/ss-panel-v3-mod" target="_blank" rel="noopener">赵大的魔改版</a><br>后端也使用<a href="https://github.com/esdeathlove/shadowsocks" target="_blank" rel="noopener">赵大的魔改版</a><br>演示环境 : Azure 1.75 G RAM机子 Ubuntu 16.04 x64<br><a id="more"></a></p>
+<h2 id="安装前段"><a href="#安装前段" class="headerlink" title="安装前段"></a>安装前段</h2><h3 id="安装LNMP"><a href="#安装LNMP" class="headerlink" title="安装LNMP"></a>安装LNMP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">screen -S lnmp</span><br><span class="line">2G以上内存</span><br><span class="line">wget http://soft.vpser.net/lnmp/lnmp1.3-full.tar.gz &amp;&amp; tar xvzf lnmp1.3-full.tar.gz</span><br><span class="line">cd lnmp1.3-full &amp;&amp; ./install.sh</span><br><span class="line">1G以下内存</span><br><span class="line">wget http://soft.vpser.net/lnmp/lnmp1.2-full.tar.gz &amp;&amp; tar xvzf lnmp1.2-full.tar.gz</span><br><span class="line">cd lnmp1.2-full &amp;&amp; ./install.sh</span><br></pre></td></tr></table></figure>
+<p>安装过程要求输入<code>MySQL</code>密码, 选择<code>MySQL</code>版本<code>&gt;=5.5</code>, <code>PHP</code>版本<code>&gt;5.6</code>.<br>我选择的是<code>MariaDB 10</code>, <code>PHP 7.0</code>.<br>安装大概需要半小时, 如果中途 ssh 断线, 输入<code>screen -r lnmp</code></p>
+<h3 id="设置虚拟机"><a href="#设置虚拟机" class="headerlink" title="设置虚拟机"></a>设置虚拟机</h3><p><code>lnmp vhost add</code><br>要求输入你的域名, 然后其余项都选 <code>no</code><br>接着修改下 <code>nginx</code><br>编辑 <code>/usr/local/nginx/conf/vhost/你的域名.conf</code><br>然后添加下面这一段到 <code>server</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / </span><br><span class="line">	&#123;</span><br><span class="line">		try_files $uri $uri/ /index.php$is_args$args;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改 root 那一行为<br><code>root /home/wwwroot/你的域名/public;</code></p>
+<h3 id="下载-sspanel-代码"><a href="#下载-sspanel-代码" class="headerlink" title="下载 sspanel 代码"></a>下载 sspanel 代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cd /home/wwwroot/你的域名</span><br><span class="line">apt-get install git -y</span><br><span class="line">git clone -b master https://github.com/esdeathlove/ss-panel-v3-mod.git tmp &amp;&amp; mv tmp/.git . &amp;&amp; rm -rf tmp &amp;&amp; git reset --hard</span><br><span class="line">chown -R root:root *</span><br><span class="line">chmod -R 755 *</span><br><span class="line">chown -R www:www storage</span><br><span class="line">chattr -i .user.ini</span><br><span class="line">mv .user.ini public</span><br><span class="line">cd public</span><br><span class="line">chattr +i .user.ini</span><br><span class="line">lnmp nginx restart</span><br></pre></td></tr></table></figure>
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><p>浏览器打开 <code>http://你的vps ip/phpmyadmin</code><br>用户 : <code>root</code><br>密码 :安装 <code>lnmp</code> 时设置的<br>需要创建一个数据库和一个访问这个数据库的用户<br>点击 用户 -&gt; 新建 -&gt; 添加用户</p>
+<ul>
+<li>登录信息 :<ul>
+<li>Username 选择 使用文本域 , 填写你的用户名 如 <code>sspanel</code></li>
+<li>Host 选择任意主机 <code>%</code></li>
+<li>密码 选择使用文本域 填写密码</li>
+</ul>
+</li>
+<li>用户数据库 :<ul>
+<li>勾选 创建与用户同名的数据库并授予所有权限<br>接着按执行 选择刚刚新建的数据库 <code>sspanel</code> 导入程序目录下的 <code>glzjin_all.sql</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="配置-sspanel"><a href="#配置-sspanel" class="headerlink" title="配置 sspanel"></a>配置 sspanel</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home/wwwroot/你的域名</span><br><span class="line">cp config/.config.php.example config/.config.php</span><br><span class="line"># 编辑以下文件 建议使用 FTP 下载到本地修改</span><br><span class="line">vi config/.config.php</span><br></pre></td></tr></table></figure>
+<p>由于配置太多 这里只说重点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">$System_Config[&apos;key&apos;] = &apos;&apos;;			//修改此key为随机字符串确保网站安全</span><br><span class="line">$System_Config[&apos;appName&apos;] = &apos;&apos;;             //站点名称</span><br><span class="line">$System_Config[&apos;baseUrl&apos;] = &apos;https://zhaojin97.cn&apos;;            // 站点地址</span><br><span class="line">$System_Config[&apos;timeZone&apos;] = &apos;PRC&apos;;        // RPC 天朝时间  UTC 格林时间</span><br><span class="line">$System_Config[&apos;pwdMethod&apos;] = &apos;sha256&apos;;       // 密码加密   可选 md5,sha256</span><br><span class="line">$System_Config[&apos;salt&apos;] = &apos;&apos;;               // 密码加密用，从旧版升级请留空</span><br><span class="line">$System_Config[&apos;authDriver&apos;] = &apos;cookie&apos;;   // 登录验证存储方式,推荐使用Redis   可选: cookie,redis</span><br><span class="line"></span><br><span class="line">$System_Config[&apos;mailDriver&apos;] = &apos;mailgun&apos;;   // 邮件 可选 mailgun or smtp 需要支持qq邮箱的选 smtp</span><br><span class="line"></span><br><span class="line">$System_Config[&apos;checkinMin&apos;] = &apos;100&apos;;       // 签到最少流量 单位MB</span><br><span class="line">$System_Config[&apos;checkinMax&apos;] = &apos;500&apos;;       // 签到最多流量</span><br><span class="line">$System_Config[&apos;defaultTraffic&apos;] = &apos;100&apos;;      // 用户初始流量 单位GB</span><br><span class="line">$System_Config[&apos;inviteNum&apos;] = &apos;0&apos;;			// 注册后获得的邀请码数量</span><br><span class="line"></span><br><span class="line"># database 数据库配置</span><br><span class="line">$System_Config[&apos;db_driver&apos;] = &apos;mysql&apos;;</span><br><span class="line">$System_Config[&apos;db_host&apos;] = &apos;localhost&apos;;		// 数据库地址</span><br><span class="line">$System_Config[&apos;db_database&apos;] = &apos;&apos;;				// 数据库名称 sspanel</span><br><span class="line">$System_Config[&apos;db_username&apos;] = &apos;&apos;;				// 数据库用户 sspanel</span><br><span class="line">$System_Config[&apos;db_password&apos;] = &apos;&apos;;				// sspanel用户的密码</span><br><span class="line">$System_Config[&apos;db_charset&apos;] = &apos;utf8&apos;;</span><br><span class="line">$System_Config[&apos;db_collation&apos;] = &apos;utf8_general_ci&apos;;</span><br><span class="line">$System_Config[&apos;db_prefix&apos;] = &apos;&apos;;</span><br><span class="line"></span><br><span class="line"># redis</span><br><span class="line">$System_Config[&apos;redis_scheme&apos;] = &apos;tcp&apos;;			// 登录验证存储方式选了 redis 的话需要配置</span><br><span class="line">$System_Config[&apos;redis_host&apos;] = &apos;127.0.0.1&apos;;</span><br><span class="line">$System_Config[&apos;redis_port&apos;] = &apos;6379&apos;;</span><br><span class="line">$System_Config[&apos;redis_database&apos;] = &apos;0&apos;;</span><br><span class="line">$System_Config[&apos;redis_password&apos;]=&quot;&quot;;</span><br><span class="line"></span><br><span class="line"># smtp</span><br><span class="line">$System_Config[&apos;smtp_host&apos;] = &apos;&apos;;				// 例如 smtp.qq.com</span><br><span class="line">$System_Config[&apos;smtp_username&apos;] = &apos;&apos;;</span><br><span class="line">$System_Config[&apos;smtp_port&apos;] = &apos;25&apos;;</span><br><span class="line">$System_Config[&apos;smtp_name&apos;] = &apos;&apos;;</span><br><span class="line">$System_Config[&apos;smtp_sender&apos;] = &apos;&apos;;</span><br><span class="line">$System_Config[&apos;smtp_passsword&apos;] = &apos;&apos;;</span><br><span class="line">$System_Config[&apos;smtp_ssl&apos;] = &apos;false&apos;;</span><br><span class="line"></span><br><span class="line">#功能开关  需要用到的才开 建议先别动</span><br><span class="line">$System_Config[&apos;enable_wecenter&apos;]=&apos;false&apos;;</span><br><span class="line">$System_Config[&apos;enable_radius&apos;]=&apos;false&apos;;		// 配置了 radius 的话就开</span><br><span class="line">$System_Config[&apos;enable_cloudxns&apos;]=&apos;false&apos;;</span><br><span class="line">$System_Config[&apos;enable_duoshuo&apos;]=&apos;false&apos;;</span><br><span class="line">$System_Config[&apos;enable_rss&apos;]=&apos;true&apos;;</span><br><span class="line">$System_Config[&apos;enable_paymentwall&apos;]=&apos;false&apos;;</span><br><span class="line"></span><br><span class="line">#Radius数据库设置</span><br><span class="line">$System_Config[&apos;radius_db_host&apos;]=&apos;&apos;;		// 跟 上面 database 数据库配置差不多 换成radius即可</span><br><span class="line">$System_Config[&apos;radius_db_database&apos;]=&apos;&apos;;</span><br><span class="line">$System_Config[&apos;radius_db_user&apos;]=&apos;&apos;;</span><br><span class="line">$System_Config[&apos;radius_db_password&apos;]=&apos;&apos;;</span><br><span class="line"></span><br><span class="line">#Radius连接密钥</span><br><span class="line">$System_Config[&apos;radius_secret&apos;]=&apos;&apos;;			// 这个重要 必须设</span><br><span class="line"></span><br><span class="line">#端口池</span><br><span class="line">$System_Config[&apos;min_port&apos;]=&apos;10000&apos;;			// SSR 分配端口号范围</span><br><span class="line">$System_Config[&apos;max_port&apos;]=&apos;65535&apos;;</span><br><span class="line"></span><br><span class="line">#两种方式相对于ss端口的偏移</span><br><span class="line">$System_Config[&apos;pacp_offset&apos;]=&apos;-20000&apos;;		// PAC+ 和 PAC++ 用到</span><br><span class="line">$System_Config[&apos;pacpp_offset&apos;]=&apos;-20000&apos;;</span><br><span class="line"></span><br><span class="line">#测速周期/h</span><br><span class="line">$System_Config[&apos;Speedtest_duration&apos;]=&apos;6&apos;;	// 对应后端 SSR 的 userapiconfig.py 里的 SPEEDTEST</span><br><span class="line"></span><br><span class="line">#随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔。</span><br><span class="line">$System_Config[&apos;ramdom_group&apos;]=&apos;0&apos;;			// 组别用于区分用户组 对应组只能访问对应组和0组的服务器 明白后再修改 </span><br><span class="line"></span><br><span class="line">#充值返利百分比</span><br><span class="line">$System_Config[&apos;code_payback&apos;]=&apos;20&apos;;		// 用户充值后 给邀请他注册的人返利多少%</span><br><span class="line"></span><br><span class="line">#注册时的流量重置日以及需要重置的流量,0不重置</span><br><span class="line">$System_Config[&apos;reg_auto_reset_day&apos;]=&apos;0&apos;;</span><br><span class="line">$System_Config[&apos;reg_auto_reset_bandwidth&apos;]=&apos;100&apos;;	// 单位G</span><br></pre></td></tr></table></figure></p>
+<p>以上为 <code>config</code> 部分配置 完成后保存并上传到原目录下<br>切换到 <code>ssh</code> 窗口, 在你的网站目录下执行以下命令创建管理员<br><code>php xcat createAdmin</code><br>按照提示, 输入管理员邮箱密码等信息, 然后执行以下命令同步用户<br><code>php xcat syncusers</code><br>此时管理员创建完成<br>接下来需要对服务器进行计划任务的设置,执行 <code>crontab -e</code> 命令, 添加以下五段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">30 22 * * * php /home/wwwroot/站点文件夹/xcat sendDiaryMail</span><br><span class="line">*/1 * * * * php /home/wwwroot/站点文件夹/xcat synclogin</span><br><span class="line">*/1 * * * * php /home/wwwroot/站点文件夹/xcat syncvpn</span><br><span class="line">0 0 * * * php /home/wwwroot/站点文件夹/xcat dailyjob</span><br><span class="line">*/1 * * * * php /home/wwwroot/站点文件夹/xcat checkjob</span><br><span class="line">*/1 * * * * php /home/wwwroot/站点文件夹/xcat syncnas</span><br></pre></td></tr></table></figure></p>
+<p>重启Crontab<br><code>/etc/init.d/cron restart</code></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>检查时间是否为天朝时间<br>如果<code>VPS</code>默认是非中国时区的话, 如下命令可以用来更改为中国时区<br><code>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code><br>检查防火墙是否屏蔽数据库端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 允许本机访问</span><br><span class="line">iptables -A INPUT -s 127.0.0.1/32 -p tcp -m tcp --dport 3306 -j ACCEPT</span><br><span class="line"># 允许节点访问</span><br><span class="line">iptables -A INPUT -s 节点IP -p tcp -m tcp --dport 3306 -j ACCEPT</span><br><span class="line"># 允许所有IP访问</span><br><span class="line">iptables -A INPUT -p tcp -m tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>查看防火墙规则<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看已添加的iptables规则</span><br><span class="line">iptables -L -n --line-numbers</span><br><span class="line">删除已添加的iptables规则</span><br><span class="line">iptables -D INPUT line-numbers</span><br></pre></td></tr></table></figure></p>
+<p>规则保存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Ubuntu</span><br><span class="line">iptables-save &gt; /etc/iptables.rules</span><br><span class="line"># CentOS</span><br><span class="line">service iptables save</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装后端"><a href="#安装后端" class="headerlink" title="安装后端"></a>安装后端</h2><h3 id="安装-libsodium"><a href="#安装-libsodium" class="headerlink" title="安装 libsodium"></a>安装 libsodium</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get install build-essential wget -y</span><br><span class="line">wget https://github.com/jedisct1/libsodium/releases/download/1.0.10/libsodium-1.0.10.tar.gz</span><br><span class="line">tar xf libsodium-1.0.10.tar.gz &amp;&amp; cd libsodium-1.0.10</span><br><span class="line">./configure &amp;&amp; make -j2 &amp;&amp; make install</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+<h3 id="安装SSR"><a href="#安装SSR" class="headerlink" title="安装SSR"></a>安装SSR</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip git -y</span><br><span class="line">pip install cymysql</span><br><span class="line">cd ..</span><br><span class="line">git clone -b manyuser https://github.com/glzjin/shadowsocks.git</span><br><span class="line">cd shadowsocks</span><br><span class="line">chmod +x *.sh</span><br><span class="line"># 配置程序</span><br><span class="line">cp apiconfig.py userapiconfig.py</span><br><span class="line">cp config.json user-config.json</span><br><span class="line">vi userapiconfig.py</span><br></pre></td></tr></table></figure>
+<p>然后主要编辑 <code>userapiconfig.py</code>, 来解释下里面各项配置的意思<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"># Config</span><br><span class="line">#节点ID 对应前端节点列表的ID</span><br><span class="line">NODE_ID = 1</span><br><span class="line"></span><br><span class="line">#自动化测速，为0不测试，此处以小时为单位，要和 ss-panel 设置的小时数一致</span><br><span class="line">SPEEDTEST = 6</span><br><span class="line"></span><br><span class="line">#云安全，自动上报与下载封禁IP，1为开启，0为关闭</span><br><span class="line">CLOUDSAFE = 1</span><br><span class="line"></span><br><span class="line">#自动封禁SS密码和加密方式错误的 IP，1为开启，0为关闭</span><br><span class="line">ANTISSATTACK = 0</span><br><span class="line"></span><br><span class="line">#是否接受上级下发的命令，如果你要用这个命令，请参考我之前写的东西，公钥放在目录下的 ssshell.asc</span><br><span class="line">AUTOEXEC = 1</span><br><span class="line"></span><br><span class="line">#是否以多线程模式运行，关闭这个限速就会无效。请优先测试 1 ，开启试试，能运行没。</span><br><span class="line">MULTI_THREAD = 0</span><br><span class="line"></span><br><span class="line">#多端口单用户设置，看重大更新说明。</span><br><span class="line">MU_SUFFIX = &apos;zhaoj.in&apos;</span><br><span class="line">#多端口单用户设置，看重大更新说明。</span><br><span class="line">MU_REGEX = &apos;%5m%id.%suffix&apos;</span><br><span class="line"></span><br><span class="line">#不明觉厉</span><br><span class="line">SERVER_PUB_ADDR = &apos;127.0.0.1&apos; # mujson_mgr need this to generate ssr link</span><br><span class="line">#此处不要修改</span><br><span class="line">API_INTERFACE = &apos;glzjinmod&apos; #mudbjson, sspanelv2, sspanelv3, sspanelv3ssr, muapiv2(not support)</span><br><span class="line">#mudb，不要管</span><br><span class="line">MUDB_FILE = &apos;mudb.json&apos;</span><br><span class="line"></span><br><span class="line"># Mysql 数据库连接信息</span><br><span class="line">MYSQL_HOST = &apos;127.0.0.1&apos;</span><br><span class="line">MYSQL_PORT = 3306</span><br><span class="line">MYSQL_USER = &apos;ss&apos;</span><br><span class="line">MYSQL_PASS = &apos;ss&apos;</span><br><span class="line">MYSQL_DB = &apos;shadowsocks&apos;</span><br><span class="line">MYSQL_UPDATE_TIME = 60</span><br><span class="line"></span><br><span class="line"># 是否启用SSL连接，0为关，1为开</span><br><span class="line">MYSQL_SSL_ENABLE = 0</span><br><span class="line"></span><br><span class="line"># 客户端证书目录，请看 https://github.com/glzjin/shadowsocks/wiki/Mysql-SSL%E9%85%8D%E7%BD%AE</span><br><span class="line">MYSQL_SSL_CERT = &apos;/root/shadowsocks/client-cert.pem&apos;</span><br><span class="line">MYSQL_SSL_KEY = &apos;/root/shadowsocks/client-key.pem&apos;</span><br><span class="line">MYSQL_SSL_CA = &apos;/root/shadowsocks/ca.pem&apos;</span><br><span class="line"></span><br><span class="line"># API，不用管</span><br><span class="line">API_HOST = &apos;127.0.0.1&apos;</span><br><span class="line">API_PORT = 80</span><br><span class="line">API_PATH = &apos;/mu/v2/&apos;</span><br><span class="line">API_TOKEN = &apos;abcdef&apos;</span><br><span class="line">API_UPDATE_TIME = 60</span><br><span class="line"></span><br><span class="line"># Manager 不用管</span><br><span class="line">MANAGE_PASS = &apos;ss233333333&apos;</span><br><span class="line"></span><br><span class="line">#if you want manage in other server you should set this value to global ip</span><br><span class="line">MANAGE_BIND_IP = &apos;127.0.0.1&apos;</span><br><span class="line"></span><br><span class="line">#make sure this port is idle</span><br><span class="line">MANAGE_PORT = 23333</span><br></pre></td></tr></table></figure></p>
+<h3 id="运行SSR"><a href="#运行SSR" class="headerlink" title="运行SSR"></a>运行SSR</h3><p>运行的话, 有几种方式</p>
+<ul>
+<li><code>python server.py</code> 用于调错的</li>
+<li><code>./run.sh</code> 无日志后台运行</li>
+<li><code>./logrun.sh</code> 有日志后台运行</li>
+<li><code>supervisord</code><br>这里说下 使用<code>Supervisor</code>守护进程启动<code>ssr</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">apt-get install supervisor -y</span><br><span class="line"></span><br><span class="line"># 写入配置</span><br><span class="line">vi /etc/supervisor/conf.d/ssr.conf</span><br><span class="line"></span><br><span class="line"># 写入以下内容</span><br><span class="line">[program:ssr]</span><br><span class="line">command=python /root/shadowsocks/server.py </span><br><span class="line">autorestart=true</span><br><span class="line">autostart=true</span><br><span class="line">user=root</span><br><span class="line"></span><br><span class="line"># 重启Supervisor服务。</span><br><span class="line">/etc/init.d/supervisor restart</span><br><span class="line"></span><br><span class="line"># 重启 ssr</span><br><span class="line">supervisorctl restart ssr</span><br><span class="line"></span><br><span class="line"># 查看Supervisor服务运行状态。</span><br><span class="line">supervisorctl status</span><br><span class="line"></span><br><span class="line"># 如果遇到问题，可以检查日志：</span><br><span class="line">supervisorctl tail -f ssr stderr</span><br><span class="line"></span><br><span class="line"># 如果使用supervisor进程守护，需要修改文件vi /etc/default/supervisor，添加一行：</span><br><span class="line">ulimit -n 1024000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h2><p><a href="https://imeiji.github.io/2017/01/09/%E6%90%AD%E5%BB%BA%20sspanel%20v3%20%E9%AD%94%E6%94%B9%E7%89%88%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">搭建 sspanel v3 魔改版记录</a></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()" title="关闭">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/">SSR-Panel V3 Mod 搭建教程</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Auska 的个人博客">Auska</a></p>
+        <p><span>发布时间:</span>2017年04月16日 - 16时57分</p>
+        <p><span>最后更新:</span>2020年06月02日 - 11时16分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/" title="SSR-Panel V3 Mod 搭建教程">http://auska.github.io/2017/04/16/SSR-Panel-V3-Mod-搭建教程/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://auska.github.io/2017/04/16/SSR-Panel-V3-Mod-搭建教程/　　作者: Auska" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/04/16/LEDE编译教程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          LEDE编译教程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/16/通往天国的梯子/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">通往天国的梯子</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装前段"><span class="toc-number">1.</span> <span class="toc-text">安装前段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装LNMP"><span class="toc-number">1.1.</span> <span class="toc-text">安装LNMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置虚拟机"><span class="toc-number">1.2.</span> <span class="toc-text">设置虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载-sspanel-代码"><span class="toc-number">1.3.</span> <span class="toc-text">下载 sspanel 代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置数据库"><span class="toc-number">1.4.</span> <span class="toc-text">配置数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置-sspanel"><span class="toc-number">1.5.</span> <span class="toc-text">配置 sspanel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.6.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装后端"><span class="toc-number">2.</span> <span class="toc-text">安装后端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-libsodium"><span class="toc-number">2.1.</span> <span class="toc-text">安装 libsodium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装SSR"><span class="toc-number">2.2.</span> <span class="toc-text">安装SSR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行SSR"><span class="toc-number">2.3.</span> <span class="toc-text">运行SSR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转载"><span class="toc-number">3.</span> <span class="toc-text">转载</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/04/16/LEDE编译教程/" title="上一篇: LEDE编译教程">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/04/16/通往天国的梯子/" title="下一篇: 通往天国的梯子">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/06/02/群晖安装-qBittorrent-套件/">群晖安装 qBittorrent 套件</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/SnapRAID/">（转载）目录级别的冗余存储：SnapRAID</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/01/mergerfs/">（转载）mergerfs 合并多块硬盘的剩余空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/11/Docker/">Docker 个人镜像资源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/24/build/">静态交叉编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/11/DSM-00/">DS3617xs 个人插件资源集合帖，持续更新中</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/17/WDMyCloud-09/">WDMyCloud 个人插件资源集合帖，已完结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/13/Gogs使用教程/">Gogs使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/12/h5ai使用教程/">h5ai使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/04/Linux下压制视频/">Linux下压制视频（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/20/BBR魔改版安装教程/">BBR魔改版安装教程（转载）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/VPS性能优化/">VPS性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-08/">WDMyCloud Gen2 安装群晖教程，慎入！！！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-07/">WDMC 多机型支持 PlexMediaServer 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-06/">WDMC 增加机型支持 WordPress插件，个人博客安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-05/">WDMC 增加机型支持 Transmission插件，PT下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-04/">WDMC 增加机型支持 Minidlna插件，视频共享中心</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-03/">WDMC 增加机型支持 Aria2插件，文件下载利器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-02/">WDMC 增加机型支持 安装迅雷插件(已失效)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud-01/">WD Gen2应用解锁，安装三方应用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/WDMyCloud/">WDMyCloud Gen2(及armv7 CPU机型)教程指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/GPG-入门教程/">【转载】GPG 入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/29/Bilibili-直播挂机脚本/">Bilibili 直播挂机脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/转载-深入浅出-Git/">[转载]深入浅出 Git</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/19/利用GitLab搭建私有代码库/">利用GitLab搭建私有代码库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/LEDE编译教程/">LEDE编译教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/SSR-Panel-V3-Mod-搭建教程/">SSR-Panel V3 Mod 搭建教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/16/通往天国的梯子/">通往天国的梯子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/02/WDMyCloud插件开源/">WDMyCloud插件开源</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/钢铁雄心IV控制台命令/">钢铁雄心IV控制台命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/WDMyCloud安装DSM固件操作说明/">WDMyCloud安装DSM固件操作说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/WDMyCloud三方固件说明/">WDMyCloud三方固件说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Hexo的配置文件解析/">Hexo的配置文件解析</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2020 Auska
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">驾驶员到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
